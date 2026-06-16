@@ -15,8 +15,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/matches", label: "Match Center" },
     { href: "/standings", label: "Rankings" },
-    { href: "/predictions", label: "AI Predictions" },
-    { href: "/design-system", label: "Design System" }
+    { href: "/predictions", label: "AI Predictions" }
   ];
 
   return (

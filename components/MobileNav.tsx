@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Activity, Calendar, Trophy, Sparkles, LayoutGrid } from "lucide-react";
+import { Home, Activity, Calendar, Trophy, Sparkles } from "lucide-react";
 
 export default function MobileNav() {
   const pathname = usePathname();
@@ -13,8 +13,7 @@ export default function MobileNav() {
     { href: "/live", label: "Live", icon: Activity },
     { href: "/matches", label: "Matches", icon: Calendar },
     { href: "/standings", label: "Rankings", icon: Trophy },
-    { href: "/predictions", label: "Predict", icon: Sparkles },
-    { href: "/design-system", label: "System", icon: LayoutGrid }
+    { href: "/predictions", label: "Predict", icon: Sparkles }
   ];
 
   return (
