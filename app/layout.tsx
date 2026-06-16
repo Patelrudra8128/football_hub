@@ -34,6 +34,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
     <head>
       <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
+
+      {/*Monetag Tag - Push Ads*/}
+      <script src="https://5gvci.com/act/files/tag.min.js?z=11157509" data-cfasync="false" async></script>
     </head>
     <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
         <LanguageProvider>
