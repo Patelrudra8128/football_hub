@@ -131,6 +131,8 @@ export const translations = {
       aiCompiling: "AI engine compiling rating databases, standings statistics, expected goal metrics (xG), and form factors...",
       readyToForecast: "Ready to Forecast",
       forecastHint: "Select teams in the matchup selector or click an upcoming scheduled fixture to trigger the prediction analysis.",
+      winLabel: "Win",
+      drawLabel: "Draw",
     },
     matchCard: {
       predictionsReady: "AI predictions ready",
@@ -289,6 +291,8 @@ export const translations = {
       aiCompiling: "El motor de IA está recopilando bases de datos de calificación, estadísticas de clasificación, métricas de goles esperados (xG) y factores de forma...",
       readyToForecast: "Listo para Pronosticar",
       forecastHint: "Seleccione los equipos en el selector o haga clic en un partido programado para iniciar el análisis de predicción.",
+      winLabel: "Victoria",
+      drawLabel: "Empate",
     },
     matchCard: {
       predictionsReady: "Predicciones de IA listas",
@@ -447,6 +451,8 @@ export const translations = {
       aiCompiling: "Le moteur d'IA compile les bases de données d'évaluation, les statistiques des classements, les buts attendus (xG) et les facteurs de forme...",
       readyToForecast: "Prêt à Prédire",
       forecastHint: "Sélectionnez les équipes dans le sélecteur ou cliquez sur un match programmé pour lancer l'analyse.",
+      winLabel: "Victoire",
+      drawLabel: "Nul",
     },
     matchCard: {
       predictionsReady: "Prédictions IA prêtes",
@@ -605,6 +611,8 @@ export const translations = {
       aiCompiling: "KI-Engine berechnet Bewertungsdatenbanken, Tabellenstatistiken, erwartete Tore (xG) und Formfaktoren...",
       readyToForecast: "Bereit für Vorhersage",
       forecastHint: "Wählen Sie Teams im Selektor aus oder klicken Sie auf ein geplantes Spiel, um die Vorhersageanalyse zu starten.",
+      winLabel: "Sieg",
+      drawLabel: "Unentschieden",
     },
     matchCard: {
       predictionsReady: "KI-Vorhersagen bereit",
@@ -763,6 +771,8 @@ export const translations = {
       aiCompiling: "O motor de IA está a compilar bases de dados de classificações, estatísticas e métricas de golos esperados (xG)...",
       readyToForecast: "Pronto para Prever",
       forecastHint: "Selecione as equipas no menu ou clique num jogo agendado para iniciar a análise de previsão.",
+      winLabel: "Vitória",
+      drawLabel: "Empate",
     },
     matchCard: {
       predictionsReady: "Previsões de IA prontas",
@@ -921,6 +931,8 @@ export const translations = {
       aiCompiling: "يقوم محرك الذكاء الاصطناعي بتجميع قواعد بيانات التقييم، وإحصاءات الترتيب، والأهداف المتوقعة (xG)، وعوامل الحالة الفنية...",
       readyToForecast: "جاهز للتوقع",
       forecastHint: "اختر الفرق من محدد المواجهات أو انقر على مباراة قادمة لبدء التحليل والتوقعات.",
+      winLabel: "فوز",
+      drawLabel: "تعادل",
     },
     matchCard: {
       predictionsReady: "توقعات الذكاء الاصطناعي جاهزة",
