@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "@/lib/api";
 import { Team } from "@/lib/mockData";
 import { Table, Trophy, Layers, Star } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function StandingsAndBracket() {
   const [teams, setTeams] = useState<Team[]>([]);
@@ -13,6 +14,7 @@ export default function StandingsAndBracket() {
   const [activeTab, setActiveTab] = useState<"tournament" | "rankings">("tournament");
   const [standingsData, setStandingsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   const loadData = async () => {
     setLoading(true);
@@ -66,9 +68,9 @@ export default function StandingsAndBracket() {
         <div>
           <h1 className="text-2xl md:text-3xl font-black flex items-center gap-2 tracking-tight">
             <Trophy className="w-6 h-6 text-primary" />
-            <span className="teal-gradient-text">World Cup Standings & Rankings</span>
+            <span className="teal-gradient-text">{t("standings.title")}</span>
           </h1>
-          <p className="text-xs text-muted-foreground mt-1">Track official FIFA World Cup league standings, goal differentials, points, and pinned nations.</p>
+          <p className="text-xs text-muted-foreground mt-1">{t("standings.subtitle")}</p>
         </div>
 
         {/* Tab Selector */}
@@ -78,21 +80,21 @@ export default function StandingsAndBracket() {
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition cursor-pointer ${activeTab === "tournament" ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
           >
             <Table className="w-4 h-4 text-primary" />
-            <span>Group Tables</span>
+            <span>{t("standings.groupTables")}</span>
           </button>
           <button
             onClick={() => setActiveTab("rankings")}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg transition cursor-pointer ${activeTab === "rankings" ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
           >
             <Layers className="w-4 h-4 text-primary" />
-            <span>FIFA World Rankings</span>
+            <span>{t("standings.fifaRankings")}</span>
           </button>
         </div>
       </div>
 
       {loading ? (
         <div className="text-center py-20 text-xs text-muted-foreground">
-          Loading standings and rankings data...
+          {t("standings.loadingText")}
         </div>
       ) : (
         /* Content Panels */
@@ -120,31 +122,31 @@ export default function StandingsAndBracket() {
                 return (
                   <div key={group.id} className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
                     <div className="px-4 py-3 bg-muted/40 border-b border-border/80 flex items-center justify-between">
-                      <span className="font-black text-sm text-foreground uppercase tracking-wider">{group.name || "Group Table"}</span>
-                      <span className="text-[9px] bg-primary/10 text-primary px-2.5 py-0.5 border border-primary/20 rounded font-bold uppercase tracking-wide">Top 2 Advance</span>
+                      <span className="font-black text-sm text-foreground uppercase tracking-wider">{group.name || t("home.groupTables")}</span>
+                      <span className="text-[9px] bg-primary/10 text-primary px-2.5 py-0.5 border border-primary/20 rounded font-bold uppercase tracking-wide">{t("home.top2Advance")}</span>
                     </div>
 
                     <div className="overflow-x-auto">
                       <table className="w-full text-xs text-left border-collapse select-none">
                         <thead>
                           <tr className="border-b border-border/60 bg-muted/10 text-muted-foreground font-bold uppercase text-[9px] tracking-wider">
-                            <th className="p-3 w-10 text-center">Pos</th>
-                            <th className="p-3">Team</th>
-                            <th className="p-3 text-center w-12">Pld</th>
-                            <th className="p-3 text-center w-10">W</th>
-                            <th className="p-3 text-center w-10">D</th>
-                            <th className="p-3 text-center w-10">L</th>
-                            <th className="p-3 text-center w-10">GF</th>
-                            <th className="p-3 text-center w-10">GA</th>
-                            <th className="p-3 text-center w-12">GD</th>
-                            <th className="p-3 text-center w-12 font-bold text-foreground">Pts</th>
+                            <th className="p-3 w-10 text-center">{t("common.pos")}</th>
+                            <th className="p-3">{t("common.team")}</th>
+                            <th className="p-3 text-center w-12">{t("common.pld")}</th>
+                            <th className="p-3 text-center w-10">{t("common.w")}</th>
+                            <th className="p-3 text-center w-10">{t("common.d")}</th>
+                            <th className="p-3 text-center w-10">{t("common.l")}</th>
+                            <th className="p-3 text-center w-10">{t("common.gf")}</th>
+                            <th className="p-3 text-center w-10">{t("common.ga")}</th>
+                            <th className="p-3 text-center w-12">{t("common.gd")}</th>
+                            <th className="p-3 text-center w-12 font-bold text-foreground">{t("common.pts")}</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-border/60">
                           {sortedEntries.map((entry: any, idx: number) => {
                             const isQualifying = idx < 2;
-                            const t = entry.team;
-                            const mappedTeam = teams.find(team => team.id === t.id);
+                            const tTeam = entry.team;
+                            const mappedTeam = teams.find(team => team.id === tTeam.id);
                             const isFav = mappedTeam ? favorites.includes(mappedTeam.id) : false;
 
                             const getStat = (name: string) => entry.stats?.find((s: any) => s.name === name)?.value || 0;
@@ -158,7 +160,7 @@ export default function StandingsAndBracket() {
                             const pts = getStat("points");
 
                             return (
-                              <tr key={t.id} className={`hover:bg-muted/10 transition-colors ${isQualifying ? "bg-primary/[0.015]" : ""}`}>
+                              <tr key={tTeam.id} className={`hover:bg-muted/10 transition-colors ${isQualifying ? "bg-primary/[0.015]" : ""}`}>
                                 <td className="p-3 text-center">
                                   <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] mx-auto ${
                                     idx === 0 ? "bg-accent text-accent-foreground" : idx === 1 ? "bg-slate-300 text-slate-800" : "text-muted-foreground"
@@ -169,15 +171,15 @@ export default function StandingsAndBracket() {
                                 <td className="p-3 font-semibold text-foreground">
                                   <div className="flex items-center gap-2.5">
                                     <button
-                                      onClick={() => handleToggleFavorite(t.id)}
+                                      onClick={() => handleToggleFavorite(tTeam.id)}
                                       className="p-0.5 text-muted-foreground/60 hover:text-primary transition-colors shrink-0 cursor-pointer"
                                       title={isFav ? "Unpin team" : "Pin team"}
                                     >
                                       <Star className={`w-3.5 h-3.5 ${isFav ? "fill-primary text-primary" : ""}`} />
                                     </button>
                                     <span className="text-xl shrink-0">{mappedTeam?.flag || "🏳️"}</span>
-                                    <span className="font-extrabold text-foreground">{t.displayName}</span>
-                                    <span className="text-[10px] text-muted-foreground font-normal">({t.abbreviation})</span>
+                                    <span className="font-extrabold text-foreground">{tTeam.displayName}</span>
+                                    <span className="text-[10px] text-muted-foreground font-normal">({tTeam.abbreviation})</span>
                                   </div>
                                 </td>
                                 <td className="p-3 text-center font-mono font-medium">{gp}</td>
@@ -203,16 +205,16 @@ export default function StandingsAndBracket() {
           ) : activeTab === "rankings" ? (
             <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
               <div className="px-4 py-3 bg-muted/40 border-b border-border/80 flex items-center justify-between">
-                <span className="text-xs font-bold text-foreground uppercase tracking-wider">FIFA Official World Rankings</span>
+                <span className="text-xs font-bold text-foreground uppercase tracking-wider">{t("standings.officialRankings")}</span>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left border-collapse select-none">
                   <thead>
                     <tr className="border-b border-border/60 bg-muted/10 text-muted-foreground font-bold uppercase text-[9px] tracking-wider">
-                      <th className="p-3 w-10 text-center">Rank</th>
-                      <th className="p-3">Team</th>
-                      <th className="p-3 text-center w-24">Rating Points</th>
+                      <th className="p-3 w-10 text-center">{t("common.rank")}</th>
+                      <th className="p-3">{t("common.team")}</th>
+                      <th className="p-3 text-center w-24">{t("common.ratingPoints")}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/60">
@@ -246,7 +248,7 @@ export default function StandingsAndBracket() {
               </div>
             </div>
           ) : (
-            <p className="text-center text-xs text-muted-foreground py-12">No standings loaded.</p>
+            <p className="text-center text-xs text-muted-foreground py-12">{t("standings.noStandings")}</p>
           )}
         </section>
       )}

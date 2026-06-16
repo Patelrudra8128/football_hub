@@ -4,16 +4,18 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Activity, Calendar, Trophy, Sparkles } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const links = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/live", label: "Live", icon: Activity },
-    { href: "/matches", label: "Matches", icon: Calendar },
-    { href: "/standings", label: "Rankings", icon: Trophy },
-    { href: "/predictions", label: "Predict", icon: Sparkles }
+    { href: "/", label: t("nav.home"), icon: Home },
+    { href: "/live", label: t("nav.live"), icon: Activity },
+    { href: "/matches", label: t("nav.matchCenter"), icon: Calendar },
+    { href: "/standings", label: t("nav.rankings"), icon: Trophy },
+    { href: "/predictions", label: t("nav.predict"), icon: Sparkles }
   ];
 
   return (

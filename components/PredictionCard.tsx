@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { PredictionResult } from "@/lib/predictionEngine";
 import { Trophy, Share2, Check, Sparkles, TrendingUp } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 interface PredictionCardProps {
   prediction: PredictionResult;
@@ -10,6 +11,7 @@ interface PredictionCardProps {
 
 export default function PredictionCard({ prediction }: PredictionCardProps) {
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
 
   const {
     homeTeam,
@@ -45,6 +47,16 @@ Analyzed by #FootballScore! Check it out!`;
     }
   };
 
+  // Localized confidence labels
+  const confidenceLabels: Record<string, string> = {
+    High: t("predictions.confidenceHigh") || "High Confidence",
+    Medium: t("predictions.confidenceMedium") || "Medium Confidence",
+    Low: t("predictions.confidenceLow") || "Low Confidence"
+  };
+
+  const winText = t("predictions.winLabel") || "WIN";
+  const drawText = t("predictions.drawLabel") || "DRAW";
+
   return (
     <div className="bg-card border border-border rounded-xl shadow-lg overflow-hidden animate-in fade-in duration-300">
       
@@ -55,11 +67,11 @@ Analyzed by #FootballScore! Check it out!`;
       <div className="p-4 bg-muted/40 border-b border-border/80 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-primary animate-pulse" />
-          <span className="text-sm font-extrabold text-foreground uppercase tracking-wider">AI Forecast Output</span>
+          <span className="text-sm font-extrabold text-foreground uppercase tracking-wider">{t("predictions.forecastOutcome")}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className={`text-[10px] uppercase tracking-wider font-extrabold px-2.5 py-0.5 border rounded-lg ${getConfidenceColor(confidence)}`}>
-            {confidence} Confidence
+            {confidenceLabels[confidence] || confidence}
           </span>
           <button
             onClick={handleShare}
@@ -78,12 +90,12 @@ Analyzed by #FootballScore! Check it out!`;
           <div className="flex-1 flex flex-col items-center text-center">
             <span className="text-4xl md:text-5xl mb-2 select-none">{homeTeam.flag}</span>
             <span className="text-sm font-black text-foreground leading-tight tracking-tight">{homeTeam.name}</span>
-            <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">Rank #{homeTeam.fifaRanking}</span>
+            <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{homeTeam.fifaRanking}</span>
           </div>
 
           {/* Predicted score center */}
           <div className="flex flex-col items-center">
-            <span className="text-[9px] uppercase font-extrabold text-muted-foreground tracking-wider mb-2">Predicted Score</span>
+            <span className="text-[9px] uppercase font-extrabold text-muted-foreground tracking-wider mb-2">{t("predictions.predictedScore") || "Predicted Score"}</span>
             <div className="bg-primary text-primary-foreground font-mono text-3xl md:text-4xl font-extrabold px-6 py-2 rounded-xl shadow-inner flex items-center gap-3 border border-border/10 tracking-widest">
               <span>{predictedHomeScore}</span>
               <span className="text-primary-foreground/45 font-light">-</span>
@@ -99,7 +111,7 @@ Analyzed by #FootballScore! Check it out!`;
           <div className="flex-1 flex flex-col items-center text-center">
             <span className="text-4xl md:text-5xl mb-2 select-none">{awayTeam.flag}</span>
             <span className="text-sm font-black text-foreground leading-tight tracking-tight">{awayTeam.name}</span>
-            <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">Rank #{awayTeam.fifaRanking}</span>
+            <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{awayTeam.fifaRanking}</span>
           </div>
         </div>
 
@@ -107,7 +119,7 @@ Analyzed by #FootballScore! Check it out!`;
         <div className="space-y-2.5">
           <div className="flex justify-between text-[11px] font-bold text-muted-foreground">
             <span className="text-primary">{homeTeam.name}: {homeWinProb}%</span>
-            <span className="text-muted-foreground/80">Draw: {drawProb}%</span>
+            <span className="text-muted-foreground/80">{t("common.d") || "Draw"}: {drawProb}%</span>
             <span className="text-secondary">{awayTeam.name}: {awayWinProb}%</span>
           </div>
           
@@ -118,7 +130,7 @@ Analyzed by #FootballScore! Check it out!`;
               style={{ width: `${homeWinProb}%` }}
               title={`${homeTeam.name} win probability: ${homeWinProb}%`}
             >
-              {homeWinProb > 15 && "WIN"}
+              {homeWinProb > 15 && winText}
             </div>
             {/* Draw Segment */}
             <div 
@@ -126,7 +138,7 @@ Analyzed by #FootballScore! Check it out!`;
               style={{ width: `${drawProb}%` }}
               title={`Draw probability: ${drawProb}%`}
             >
-              {drawProb > 15 && "DRAW"}
+              {drawProb > 15 && drawText}
             </div>
             {/* Away Win Segment */}
             <div 
@@ -134,7 +146,7 @@ Analyzed by #FootballScore! Check it out!`;
               style={{ width: `${awayWinProb}%` }}
               title={`${awayTeam.name} win probability: ${awayWinProb}%`}
             >
-              {awayWinProb > 15 && "WIN"}
+              {awayWinProb > 15 && winText}
             </div>
           </div>
         </div>
@@ -143,7 +155,7 @@ Analyzed by #FootballScore! Check it out!`;
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-2">
           <h5 className="text-xs font-extrabold text-primary flex items-center gap-1.5 uppercase tracking-wider">
             <Trophy className="w-3.5 h-3.5 text-accent" />
-            <span>AI Tactical Reasoning</span>
+            <span>{t("predictions.aiTacticalReasoning") || "AI Tactical Reasoning"}</span>
           </h5>
           <p className="text-xs text-foreground leading-relaxed font-semibold">
             {reasoning}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LiveScoreBar from "@/components/LiveScoreBar";
@@ -35,15 +36,17 @@ export default function RootLayout({
       <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
     </head>
     <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
-        <ThemeProvider>
-          <Navbar />
-          {/*<LiveScoreBar />*/}
-          <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 pb-20 xl:pb-10">
-            {children}
-          </main>
-          <Footer />
-          <MobileNav />
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <Navbar />
+            {/*<LiveScoreBar />*/}
+            <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 pb-20 xl:pb-10">
+              {children}
+            </main>
+            <Footer />
+            <MobileNav />
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

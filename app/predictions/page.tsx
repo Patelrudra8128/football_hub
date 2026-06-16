@@ -6,11 +6,13 @@ import { Team, Match } from "@/lib/mockData";
 import { calculatePrediction, PredictionResult } from "@/lib/predictionEngine";
 import PredictionCard from "@/components/PredictionCard";
 import { Sparkles, HelpCircle, Loader2, ArrowRightLeft } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function PredictionCenter() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
   const [loadingList, setLoadingList] = useState(true);
+  const { t } = useLanguage();
 
   // Selection states
   const [homeTeamId, setHomeTeamId] = useState("");
@@ -47,7 +49,7 @@ export default function PredictionCenter() {
     if (!homeTeamId || !awayTeamId) return;
 
     if (homeTeamId === awayTeamId) {
-      setError("Please select two different teams.");
+      setError(t("predictions.errorSameTeam"));
       setPrediction(null);
       return;
     }
@@ -96,14 +98,14 @@ export default function PredictionCenter() {
       <div className="border-b border-border pb-5">
         <h1 className="text-2xl md:text-3xl font-black flex items-center gap-2 tracking-tight">
           <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-          <span className="teal-gradient-text">AI Prediction Center</span>
+          <span className="teal-gradient-text">{t("predictions.title")}</span>
         </h1>
-        <p className="text-xs text-muted-foreground mt-1">Compute winning probabilities, expected goals (xG) ratios, and detailed tactical match analytics.</p>
+        <p className="text-xs text-muted-foreground mt-1">{t("predictions.subtitle")}</p>
       </div>
 
       {loadingList ? (
         <div className="text-center py-20 text-xs text-muted-foreground">
-          Loading prediction center matchup data...
+          {t("predictions.loadingText")}
         </div>
       ) : (
         /* Main split grid */
@@ -114,12 +116,12 @@ export default function PredictionCenter() {
             
             {/* Custom Matchup Predictor Form */}
             <div className="bg-card border border-border rounded-xl p-5 space-y-4 shadow-sm">
-              <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-2">Custom Matchup Selector</h3>
+              <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-2">{t("predictions.customSelector")}</h3>
               
               <form onSubmit={handlePredict} className="space-y-4 text-xs">
                 {/* Home Selection */}
                 <div className="space-y-1">
-                  <label className="font-extrabold text-muted-foreground uppercase text-[9px] tracking-wider">Home Team</label>
+                  <label className="font-extrabold text-muted-foreground uppercase text-[9px] tracking-wider">{t("predictions.homeTeam")}</label>
                   <select
                     value={homeTeamId}
                     onChange={(e) => setHomeTeamId(e.target.value)}
@@ -137,7 +139,7 @@ export default function PredictionCenter() {
                     type="button"
                     onClick={swapTeams}
                     className="p-2 bg-muted/60 hover:bg-border/60 rounded-full transition-colors text-muted-foreground hover:text-primary cursor-pointer"
-                    title="Swap matchup sides"
+                    title={t("predictions.swapTooltip")}
                   >
                     <ArrowRightLeft className="w-4 h-4 rotate-90 sm:rotate-0" />
                   </button>
@@ -145,7 +147,7 @@ export default function PredictionCenter() {
 
                 {/* Away Selection */}
                 <div className="space-y-1">
-                  <label className="font-extrabold text-muted-foreground uppercase text-[9px] tracking-wider">Away Team</label>
+                  <label className="font-extrabold text-muted-foreground uppercase text-[9px] tracking-wider">{t("predictions.awayTeam")}</label>
                   <select
                     value={awayTeamId}
                     onChange={(e) => setAwayTeamId(e.target.value)}
@@ -167,12 +169,12 @@ export default function PredictionCenter() {
                   {loading ? (
                     <>
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      <span>Running AI Simulation...</span>
+                      <span>{t("predictions.runningSimulation")}</span>
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-3.5 h-3.5 text-primary-foreground" />
-                      <span>Run AI Prediction</span>
+                      <span>{t("predictions.runPrediction")}</span>
                     </>
                   )}
                 </button>
@@ -181,7 +183,7 @@ export default function PredictionCenter() {
 
             {/* Quick Predict Upcoming Matches List */}
             <div className="space-y-3">
-              <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">Quick Forecast Fixtures</h3>
+              <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">{t("predictions.quickForecast")}</h3>
               
               {upcomingMatches.length > 0 ? (
                 <div className="space-y-2.5">
@@ -200,13 +202,13 @@ export default function PredictionCenter() {
                           <span className="text-[8px] uppercase tracking-wider text-muted-foreground font-extrabold block mb-1">{m.group}</span>
                           <span className="font-extrabold text-foreground">{hTeam.flag} {hTeam.code} vs {aTeam.flag} {aTeam.code}</span>
                         </div>
-                        <span className="text-[10px] text-primary font-bold hover:underline shrink-0">Predict &rarr;</span>
+                        <span className="text-[10px] text-primary font-bold hover:underline shrink-0">{t("nav.predict")} &rarr;</span>
                       </button>
                     );
                   })}
                 </div>
               ) : (
-                <p className="text-xs text-muted-foreground font-medium">No scheduled matches available for forecasting.</p>
+                <p className="text-xs text-muted-foreground font-medium">{t("predictions.noForecastAvailable")}</p>
               )}
             </div>
 
@@ -214,20 +216,20 @@ export default function PredictionCenter() {
 
           {/* Right Column: AI predictions display */}
           <div className="lg:col-span-2 space-y-6">
-            <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">Forecast Outcome</h3>
+            <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">{t("predictions.forecastOutcome")}</h3>
 
             {loading ? (
               <div className="flex flex-col items-center justify-center py-24 bg-card border border-border rounded-xl space-y-3 text-center px-4 animate-pulse">
                 <Loader2 className="w-8 h-8 text-primary animate-spin" />
-                <p className="text-xs text-muted-foreground font-medium max-w-sm leading-relaxed">AI engine compiling rating databases, standings statistics, expected goal metrics (xG), and form factors...</p>
+                <p className="text-xs text-muted-foreground font-medium max-w-sm leading-relaxed">{t("predictions.aiCompiling")}</p>
               </div>
             ) : prediction ? (
               <PredictionCard prediction={prediction} />
             ) : (
               <div className="text-center py-20 bg-card border border-border rounded-xl text-muted-foreground flex flex-col items-center justify-center p-4">
                 <HelpCircle className="w-10 h-10 text-muted-foreground/30 mb-2" />
-                <p className="text-sm font-extrabold text-foreground uppercase tracking-wider">Ready to Forecast</p>
-                <p className="text-[11px] text-muted-foreground max-w-sm mt-1">Select teams in the matchup selector or click an upcoming scheduled fixture to trigger the prediction analysis.</p>
+                <p className="text-sm font-extrabold text-foreground uppercase tracking-wider">{t("predictions.readyToForecast")}</p>
+                <p className="text-[11px] text-muted-foreground max-w-sm mt-1">{t("predictions.forecastHint")}</p>
               </div>
             )}
           </div>

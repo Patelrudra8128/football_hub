@@ -8,6 +8,7 @@ import {
   Calendar, Flame, Sparkles, Trophy, Star, ArrowRight, Activity, 
   Search, Users, Award, ChevronRight 
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Home() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -15,6 +16,7 @@ export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const { t, language } = useLanguage();
   
   // States
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,10 +131,10 @@ export default function Home() {
       <section className="bg-gradient-to-br from-primary/10 via-card to-card border border-border/80 rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="space-y-2 text-center md:text-left">
           <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-none text-foreground uppercase">
-            Football Score
+            {t("brand")}
           </h1>
           <p className="text-xs text-muted-foreground font-semibold max-w-md">
-            Track real-time FIFA World Cup scores, match telemetry events, and AI progression charts.
+            {t("tagline")}
           </p>
         </div>
 
@@ -140,7 +142,7 @@ export default function Home() {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Search nations, players, or group stages..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-card border border-border/80 rounded-xl text-xs font-semibold focus:outline-none focus:border-primary transition"
@@ -152,7 +154,7 @@ export default function Home() {
       {showSearchResults && (
         <section className="bg-card border border-border rounded-xl p-5 space-y-4 shadow-md animate-in slide-in-from-top-4 duration-300">
           <h2 className="text-xs font-extrabold uppercase tracking-wider text-primary border-b border-border/60 pb-2">
-            Search Results for &quot;{searchQuery}&quot;
+            {t("home.searchResults")} &quot;{searchQuery}&quot;
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -160,7 +162,7 @@ export default function Home() {
             <div className="space-y-2">
               <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />
-                <span>Matches ({filteredMatches.length})</span>
+                <span>{t("home.matchesCount")} ({filteredMatches.length})</span>
               </h3>
               {filteredMatches.length > 0 ? (
                 <div className="space-y-1.5">
@@ -176,7 +178,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <p className="text-[10px] text-muted-foreground">No matches found.</p>
+                <p className="text-[10px] text-muted-foreground">{t("common.noMatches")}</p>
               )}
             </div>
 
@@ -184,7 +186,7 @@ export default function Home() {
             <div className="space-y-2">
               <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5" />
-                <span>Players ({filteredPlayers.length})</span>
+                <span>{t("home.playersCount")} ({filteredPlayers.length})</span>
               </h3>
               {filteredPlayers.length > 0 ? (
                 <div className="space-y-1.5">
@@ -200,7 +202,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <p className="text-[10px] text-muted-foreground">No players found.</p>
+                <p className="text-[10px] text-muted-foreground">{t("common.noResults")}</p>
               )}
             </div>
 
@@ -208,7 +210,7 @@ export default function Home() {
             <div className="space-y-2">
               <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
                 <Trophy className="w-3.5 h-3.5" />
-                <span>Nations ({filteredTeams.length})</span>
+                <span>{t("home.nationsCount")} ({filteredTeams.length})</span>
               </h3>
               {filteredTeams.length > 0 ? (
                 <div className="space-y-1.5">
@@ -224,7 +226,7 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                <p className="text-[10px] text-muted-foreground">No nations found.</p>
+                <p className="text-[10px] text-muted-foreground">{t("common.noResults")}</p>
               )}
             </div>
           </div>
@@ -239,11 +241,11 @@ export default function Home() {
           <div className="flex justify-between items-center">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Flame className="w-4 h-4 text-primary" />
-              <span>Live Highlight Fixture</span>
+              <span>{t("home.liveHighlight")}</span>
             </h2>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary">Live Feeds active</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary">{t("home.liveFeedsActive")}</span>
             </div>
           </div>
           {featuredMatch ? (
@@ -264,11 +266,11 @@ export default function Home() {
                       href={`/matches/${featuredMatch.id}?watch=true`}
                       className="flex items-center gap-1.5 bg-destructive/10 border border-destructive/20 text-destructive text-[9px] font-black px-2.5 py-1 rounded-lg uppercase hover:bg-destructive/20 transition duration-200"
                     >
-                      <span>📺 Watch Live</span>
+                      <span>📺 {t("home.watchLive")}</span>
                     </Link>
                     <div className="flex items-center gap-1.5 text-destructive font-black uppercase animate-pulse">
                       <Activity className="w-4 h-4" />
-                      <span>{featuredMatch.minute}&apos; mins</span>
+                      <span>{featuredMatch.minute}&apos; {t("common.minutes")}</span>
                     </div>
                   </div>
                 )}
@@ -299,7 +301,7 @@ export default function Home() {
               {/* Live Events Timeline */}
               {featuredMatch.events && featuredMatch.events.length > 0 && (
                 <div className="bg-muted/25 border border-border/60 rounded-xl p-3 text-xs space-y-2.5">
-                  <span className="text-[9px] uppercase font-bold text-muted-foreground tracking-wider block border-b border-border/40 pb-1">Match Actions Log</span>
+                  <span className="text-[9px] uppercase font-bold text-muted-foreground tracking-wider block border-b border-border/40 pb-1">{t("home.matchActionsLog")}</span>
                   <div className="flex flex-wrap gap-3 font-semibold">
                     {featuredMatch.events.map((ev, idx) => (
                       <span key={idx} className="bg-card border border-border/50 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[10px]">
@@ -316,7 +318,7 @@ export default function Home() {
                   href={`/matches/${featuredMatch.id}`}
                   className="flex items-center gap-1.5 bg-primary text-primary-foreground font-black text-xs px-4 py-2 rounded-xl hover:opacity-90 transition-opacity shadow"
                 >
-                  <span>Detailed scorecard</span>
+                  <span>{t("home.detailedScorecard")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -324,7 +326,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="bg-card border border-border rounded-lg p-8 text-center text-xs text-muted-foreground">
-              No matches found.
+              {t("common.noMatches")}
             </div>
           )}
         </div>
@@ -334,11 +336,11 @@ export default function Home() {
           <div className="bg-gradient-to-br from-primary/10 to-card border border-primary/20 rounded-2xl p-5 shadow-sm relative overflow-hidden">
             <h3 className="text-[10px] uppercase font-black text-primary tracking-widest mb-2 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>AI World Cup Prediction</span>
+              <span>{t("home.aiPrediction")}</span>
             </h3>
-            <p className="text-xs text-foreground font-black mb-1">Final Bracket Projection</p>
+            <p className="text-xs text-foreground font-black mb-1">{t("home.bracketProjection")}</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed">
-              Based on squad health indices, goal ratios, and rankings metrics, Spain and Argentina enter as overall favorites to reach the Grand Final.
+              {t("home.predictionDesc")}
             </p>
           </div>
 
@@ -346,7 +348,7 @@ export default function Home() {
           <div className="bg-card border border-border rounded-xl p-5 space-y-3 shadow-sm">
             <h3 className="text-[10px] uppercase font-black text-muted-foreground tracking-wider border-b border-border/60 pb-2 flex items-center gap-2">
               <Star className="w-3.5 h-3.5 text-primary" />
-              <span>My Favorited Teams</span>
+              <span>{t("home.myFavoritedTeams")}</span>
             </h3>
             {pinnedCountries.length > 0 ? (
               <div className="grid grid-cols-2 gap-2">
@@ -368,8 +370,8 @@ export default function Home() {
               </div>
             ) : (
               <div className="text-center py-4 text-xs text-muted-foreground">
-                <p className="font-semibold">No favorited countries.</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Click the star in standings below to pin.</p>
+                <p className="font-semibold">{t("home.noFavorites")}</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">{t("home.favoritesHint")}</p>
               </div>
             )}
           </div>
@@ -384,18 +386,18 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Activity className="w-4 h-4 text-primary" />
-              <span>Fixtures Center</span>
+              <span>{t("home.fixturesCenter")}</span>
             </h2>
 
             {/* Filter Tabs */}
-            <div className="bg-muted p-1 rounded-xl flex gap-0.5 text-[10px] font-bold uppercase shrink-0 border border-border/60">
+            <div className="bg-muted p-1 rounded-xl flex gap-0.5 text-[10px] font-bold uppercase shrink-0 border border-border/60 animate-in fade-in">
               {(["all", "live", "upcoming", "finished"] as const).map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveMatchesTab(tab)}
                   className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${activeMatchesTab === tab ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
                 >
-                  {tab}
+                  {t(`common.${tab}`)}
                 </button>
               ))}
             </div>
@@ -430,7 +432,7 @@ export default function Home() {
                     <div className="text-center md:text-right space-y-1.5 shrink-0">
                       {match.status === "finished" && (
                         <div>
-                          <span className="text-[9px] bg-muted text-muted-foreground px-2 py-0.5 rounded font-black uppercase tracking-wider block">Finished</span>
+                          <span className="text-[9px] bg-muted text-muted-foreground px-2 py-0.5 rounded font-black uppercase tracking-wider block">{t("common.finished")}</span>
                           <span className="text-sm font-mono font-black text-primary block mt-1">{match.homeScore} - {match.awayScore}</span>
                         </div>
                       )}
@@ -438,7 +440,7 @@ export default function Home() {
                       {match.status === "live" && (
                         <div>
                           <span className="inline-flex items-center gap-1 text-[9px] bg-destructive/10 border border-destructive/20 text-destructive font-black px-2 py-0.5 rounded uppercase animate-pulse">
-                            Live {match.minute}&apos;
+                            {t("common.live")} {match.minute}&apos;
                           </span>
                           <span className="text-sm font-mono font-black text-foreground block mt-1">{match.homeScore} - {match.awayScore}</span>
                         </div>
@@ -446,9 +448,9 @@ export default function Home() {
 
                       {match.status === "scheduled" && (
                         <div>
-                          <span className="text-[9px] bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded font-black uppercase tracking-wider block">Scheduled</span>
+                          <span className="text-[9px] bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded font-black uppercase tracking-wider block">{t("common.scheduled")}</span>
                           <span className="text-[10px] font-mono font-bold block text-muted-foreground mt-1">
-                            {new Date(match.date).toLocaleDateString(undefined, {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}
+                            {new Date(match.date).toLocaleDateString(language, {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}
                           </span>
                         </div>
                       )}
@@ -457,7 +459,7 @@ export default function Home() {
                         href={`/matches/${match.id}`}
                         className="inline-flex items-center gap-1 text-[10px] text-primary font-black uppercase hover:underline"
                       >
-                        <span>Telemetry Details</span>
+                        <span>{t("home.telemetryDetails")}</span>
                         <ChevronRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
@@ -466,7 +468,7 @@ export default function Home() {
               })
             ) : (
               <div className="text-center py-16 bg-card border border-border rounded-xl text-xs text-muted-foreground">
-                No matches found.
+                {t("common.noMatches")}
               </div>
             )}
           </div>
@@ -476,7 +478,7 @@ export default function Home() {
               href="/matches"
               className="inline-flex items-center gap-1.5 text-xs text-primary font-black uppercase hover:underline"
             >
-              <span>View Full Match Center & Schedules</span>
+              <span>{t("home.viewFullCenter")}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -485,7 +487,7 @@ export default function Home() {
           <div className="space-y-4 pt-4">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Users className="w-4 h-4 text-primary" />
-              <span>World Cup Top Performers</span>
+              <span>{t("home.performersSpotlight")}</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {players.slice(0, 3).map(player => (
@@ -508,11 +510,11 @@ export default function Home() {
                   
                   <div className="grid grid-cols-2 gap-2 border-t border-border/40 pt-3 text-[10px] text-muted-foreground font-semibold">
                     <div>
-                      <span className="block text-[8px] uppercase tracking-wider">Goals</span>
+                      <span className="block text-[8px] uppercase tracking-wider">{t("common.goals")}</span>
                       <span className="text-xs font-black font-mono text-foreground">{player.stats.goals}</span>
                     </div>
                     <div>
-                      <span className="block text-[8px] uppercase tracking-wider">Assists</span>
+                      <span className="block text-[8px] uppercase tracking-wider">{t("common.assists")}</span>
                       <span className="text-xs font-black font-mono text-foreground">{player.stats.assists}</span>
                     </div>
                   </div>
@@ -528,10 +530,10 @@ export default function Home() {
             <div className="flex justify-between items-center border-b border-border pb-3">
               <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-primary" />
-                <span>Group Standings</span>
+                <span>{t("home.groupStandings")}</span>
               </h2>
               <Link href="/standings" className="text-[9px] font-black uppercase text-primary hover:underline flex items-center gap-1">
-                <span>All Groups</span>
+                <span>{t("home.allGroups")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -539,7 +541,7 @@ export default function Home() {
             <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
               {/* Group Dropdown Selector */}
               <div className="px-4 py-3 bg-muted/40 border-b border-border flex items-center justify-between">
-                <span className="font-extrabold text-[10px] text-foreground uppercase tracking-wider">Group tables</span>
+                <span className="font-extrabold text-[10px] text-foreground uppercase tracking-wider">{t("home.groupTables")}</span>
                 <select
                   value={selectedGroup}
                   onChange={(e) => setSelectedGroup(e.target.value)}
@@ -555,11 +557,11 @@ export default function Home() {
               <table className="w-full text-xs text-left border-collapse select-none">
                 <thead>
                   <tr className="border-b border-border/60 bg-muted/10 text-muted-foreground font-bold uppercase text-[8px] tracking-wider">
-                    <th className="p-3 w-8 text-center">Pos</th>
-                    <th className="p-3">Nation</th>
-                    <th className="p-3 text-center w-8">Pld</th>
-                    <th className="p-3 text-center w-8">GD</th>
-                    <th className="p-3 text-center w-8 font-bold text-foreground">Pts</th>
+                    <th className="p-3 w-8 text-center">{t("common.pos")}</th>
+                    <th className="p-3">{t("common.nation")}</th>
+                    <th className="p-3 text-center w-8">{t("common.pld")}</th>
+                    <th className="p-3 text-center w-8">{t("common.gd")}</th>
+                    <th className="p-3 text-center w-8 font-bold text-foreground">{t("common.pts")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/60">
@@ -607,7 +609,7 @@ export default function Home() {
           <div className="space-y-4">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Award className="w-4 h-4 text-primary" />
-              <span>Trending News</span>
+              <span>{t("home.trendingNews")}</span>
             </h2>
             <div className="space-y-3">
               {news.map(article => (
@@ -623,7 +625,7 @@ export default function Home() {
                   </p>
                   <div className="flex justify-between items-center text-[9px] text-muted-foreground font-semibold border-t border-border/40 pt-2">
                     <span>{article.readTime}</span>
-                    <span>{new Date(article.date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}</span>
+                    <span>{new Date(article.date).toLocaleDateString(language, {month: 'short', day: 'numeric'})}</span>
                   </div>
                 </div>
               ))}
