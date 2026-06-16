@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
     <head>
       <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
 
