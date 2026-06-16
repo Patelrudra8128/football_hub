@@ -39,9 +39,11 @@ export default function RootLayout({
       <script src="https://5gvci.com/act/files/tag.min.js?z=11157509" data-cfasync="false" async></script>
 
       {/*Monetag Tag - In-page Push Ads*/}
-      <script>(function(s){s.dataset.zone = '11157575',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,
-        document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
-      </script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(s){s.dataset.zone = '11157575',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`
+        }}
+      />
     </head>
     <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
