@@ -46,9 +46,11 @@ export default function RootLayout({
       />
 
       {/*Monetag Tag - Vignette Ads*/}
-      <script>(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement,
-        document.body].filter(Boolean).pop().appendChild(document.createElement('script')))
-      </script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`
+        }}
+      />
     </head>
     <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
