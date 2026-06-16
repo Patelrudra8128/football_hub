@@ -31,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
+    <head>
+      <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
+    </head>
+    <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
         <ThemeProvider>
           <Navbar />
           {/*<LiveScoreBar />*/}
