@@ -1,26 +1,190 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* HSL Color Palette - Light Mode (Cyber Athletic Theme) */
+  --background: 210 20% 96%;       /* Soft light gray-blue background */
+  --foreground: 222 47% 12%;       /* Deep dark navy text */
+  
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 12%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 12%;
+  
+  --primary: 171 100% 32%;         /* Rich sport teal */
+  --primary-foreground: 210 20% 98%;
+  
+  --secondary: 222 35% 15%;        /* Deep athletic navy */
+  --secondary-foreground: 210 20% 98%;
+  
+  --muted: 210 20% 88%;
+  --muted-foreground: 222 15% 45%;
+  
+  --accent: 47 100% 50%;           /* Gold yellow */
+  --accent-foreground: 222 47% 12%;
+  
+  --destructive: 340 100% 45%;     /* Crimson red */
+  --destructive-foreground: 0 0% 98%;
+  
+  --border: 210 20% 84%;
+  --input: 210 20% 84%;
+  --ring: 171 100% 32%;
+  
+  --radius: 0.5rem;                /* Clean, sharp sports layout radius */
+}
+
+.dark {
+  /* HSL Color Palette - Dark Mode (Cyber Athletic Theme - SofaScore/FIFA Style) */
+  --background: 222 47% 7%;        /* Midnight Sport Blue (#080E1B) */
+  --foreground: 210 40% 98%;       /* Cool crisp white text */
+  
+  --card: 222 36% 12%;             /* Slate Sport Card (#131b2d) */
+  --card-foreground: 210 40% 98%;
+  
+  --popover: 222 36% 12%;
+  --popover-foreground: 210 40% 98%;
+  
+  --primary: 171 100% 45%;         /* Cyber Teal (#00F5D4) */
+  --primary-foreground: 222 47% 7%;
+  
+  --secondary: 222 25% 18%;        /* Contrast Slate Blue */
+  --secondary-foreground: 210 40% 98%;
+  
+  --muted: 222 25% 15%;
+  --muted-foreground: 222 15% 70%;
+  
+  --accent: 47 100% 50%;           /* Sport Gold (#FFC300) */
+  --accent-foreground: 222 47% 7%;
+  
+  --destructive: 340 100% 50%;     /* Neon Crimson (#FF0054) */
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 222 30% 18%;           /* Sport Slate Border (#1d2a45) */
+  --input: 222 30% 18%;
+  --ring: 171 100% 45%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --font-sans: 'Outfit', 'Inter', var(--font-geist-sans), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base resets & custom scrollbar */
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Custom sports layout borders & panels */
+.sport-border-cyan {
+  border: 1px solid rgba(0, 245, 212, 0.15);
+}
+
+.sport-border-cyan-hover:hover {
+  border-color: rgba(0, 245, 212, 0.45);
+  box-shadow: 0 0 12px rgba(0, 245, 212, 0.08);
+}
+
+.glass-panel {
+  background: rgba(18, 27, 45, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 245, 212, 0.12);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Gradient effects */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFE885 0%, #FFC300 50%, #C49000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.teal-gradient-text {
+  background: linear-gradient(135deg, #99FFE3 0%, #00F5D4 50%, #00BFA5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sport-navy-gradient {
+  background: linear-gradient(135deg, #080E1B 0%, #121B2D 50%, #1C273E 100%);
+}
+
+.cyber-teal-gradient {
+  background: linear-gradient(135deg, #00F5D4 0%, #00BFA5 100%);
+}
+
+.neon-glow-primary {
+  box-shadow: 0 0 15px rgba(0, 245, 212, 0.15);
+}
+
+.neon-glow-destructive {
+  box-shadow: 0 0 15px rgba(255, 0, 84, 0.15);
+}
+
+/* Bounded pulse animation */
+@keyframes pulse-teal {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 245, 212, 0);
+  }
+}
+
+.pulse-teal-glow {
+  animation: pulse-teal 2s infinite;
 }
