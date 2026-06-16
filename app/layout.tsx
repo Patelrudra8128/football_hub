@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
         <ThemeProvider>
           <Navbar />
-          <LiveScoreBar />
+          {/*<LiveScoreBar />*/}
           <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 pb-20 xl:pb-10">
             {children}
           </main>
