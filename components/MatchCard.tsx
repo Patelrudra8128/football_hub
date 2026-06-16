@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Match, Team, MatchEvent } from "@/lib/mockData";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { ChevronDown, ChevronUp, Calendar, Clock, BarChart2, ShieldAlert } from "lucide-react";
 
 interface MatchCardProps {

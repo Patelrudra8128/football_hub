@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Match, Team, Player, NewsArticle } from "@/lib/mockData";
 import { 
   Calendar, Flame, Sparkles, Trophy, Star, ArrowRight, Activity, 
@@ -191,7 +191,7 @@ export default function Home() {
                   {filteredPlayers.map(p => (
                     <Link
                       key={p.id}
-                      href={`/profile?id=${p.id}`}
+                      href={`/players?id=${p.id}&teamId=${p.teamId}`}
                       className="block p-2.5 rounded border border-border/60 hover:border-primary/45 bg-muted/20 text-xs transition"
                     >
                       <div className="font-bold">{p.name}</div>
@@ -483,7 +483,7 @@ export default function Home() {
               {players.slice(0, 3).map(player => (
                 <Link
                   key={player.id}
-                  href={`/profile?id=${player.id}`}
+                  href={`/players?id=${player.id}&teamId=${player.teamId}`}
                   className="bg-card border border-border rounded-xl p-4 shadow-sm hover:border-primary/45 transition flex flex-col justify-between space-y-4 animate-in fade-in"
                 >
                   <div className="flex items-center gap-3">

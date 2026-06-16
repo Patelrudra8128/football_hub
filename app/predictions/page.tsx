@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Team, Match } from "@/lib/mockData";
 import { calculatePrediction, PredictionResult } from "@/lib/predictionEngine";
 import PredictionCard from "@/components/PredictionCard";

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Team } from "@/lib/mockData";
 import { Table, Trophy, Layers, Star } from "lucide-react";
 

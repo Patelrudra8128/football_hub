@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Team, Player, Match, NewsArticle, MOCK_NEWS, MOCK_MATCHES } from "./mockData";
 
-
 const STORAGE_KEYS = {
   TEAMS: "football_score_teams",
   MATCHES: "football_score_matches",
   NEWS: "football_score_news",
-  USER: "football_score_user",
-  FAVORITES: "football_score_favorites",
-  SIM_OVERRIDES: "football_score_sim_overrides"
+  FAVORITES: "football_score_favorites"
 };
 
 const FLAG_MAP: Record<string, string> = {
@@ -38,16 +35,15 @@ function initializeStorage() {
   if (!localStorage.getItem(STORAGE_KEYS.FAVORITES)) {
     localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify([]));
   }
-  if (!localStorage.getItem(STORAGE_KEYS.SIM_OVERRIDES)) {
-    localStorage.setItem(STORAGE_KEYS.SIM_OVERRIDES, JSON.stringify({}));
-  }
 }
 
 // Global caching layer to avoid duplicate HTTP requests within the same session
 let cachedTeams: Team[] | null = null;
 let cachedStandings: any = null;
 
-export class MockDatabase {
+export class ApiClient {
+  private listeners: { [key: string]: ((data?: any) => void)[] } = {};
+
   constructor() {
     initializeStorage();
   }
@@ -181,7 +177,7 @@ export class MockDatabase {
     }
   }
 
-  // MATCHES (Scoreboard with Local Storage simulation overrides)
+  // MATCHES (Scoreboard)
   async getMatches(dates?: string): Promise<Match[]> {
     const params: Record<string, string> = {};
     params.dates = dates || "20260611-20260719";
@@ -190,19 +186,7 @@ export class MockDatabase {
       const data = await this.fetchApi("scoreboard", params);
       const events = data.events || [];
 
-      // Load local simulation overrides
-      let overrides: Record<string, Match> = {};
-      if (typeof window !== "undefined") {
-        const ovData = localStorage.getItem(STORAGE_KEYS.SIM_OVERRIDES);
-        overrides = ovData ? JSON.parse(ovData) : {};
-      }
-
       const mappedMatches: Match[] = events.map((ev: any) => {
-        // Return override if present
-        if (overrides[ev.id]) {
-          return overrides[ev.id];
-        }
-
         const comp = ev.competitions?.[0];
         const homeComp = comp?.competitors?.find((c: any) => c.homeAway === "home");
         const awayComp = comp?.competitors?.find((c: any) => c.homeAway === "away");
@@ -242,15 +226,6 @@ export class MockDatabase {
 
   // MATCH DETAILS + LINEUPS + STATS
   async getMatchDetails(eventId: string): Promise<Match | null> {
-    // 1. Check local simulation overrides first
-    if (typeof window !== "undefined") {
-      const ovData = localStorage.getItem(STORAGE_KEYS.SIM_OVERRIDES);
-      const overrides = ovData ? JSON.parse(ovData) : {};
-      if (overrides[eventId]) {
-        return overrides[eventId];
-      }
-    }
-
     try {
       const data = await this.fetchApi("summary", { event: eventId });
       const header = data.header || {};
@@ -315,7 +290,6 @@ export class MockDatabase {
           else if (eType.includes("card") && eType.includes("red")) type = "red_card";
           else if (eType.includes("sub")) type = "substitution";
 
-          // Determine which team it belongs to by looking at event text
           const eventText = ev.text || "";
           const isHomeEvent = eventText.toLowerCase().includes(homeComp?.team?.displayName?.toLowerCase() || "home");
 
@@ -353,7 +327,6 @@ export class MockDatabase {
   // LAZY-LOAD TEAM ROSTER PLAYERS
   async getPlayers(teamId?: string): Promise<Player[]> {
     if (!teamId) {
-      // Return a general mock or empty list of players
       return [];
     }
 
@@ -429,43 +402,11 @@ export class MockDatabase {
     return favs;
   }
 
-  // WRITE OVERRIDES FOR LIVE TICKER SIMULATOR
-  async updateMatch(match: Match): Promise<void> {
-    if (typeof window === "undefined") return;
-    const ovData = localStorage.getItem(STORAGE_KEYS.SIM_OVERRIDES);
-    const overrides = ovData ? JSON.parse(ovData) : {};
-    overrides[match.id] = match;
-    localStorage.setItem(STORAGE_KEYS.SIM_OVERRIDES, JSON.stringify(overrides));
-    this.triggerUpdate("matches", match);
-  }
-
-  async resetSimulationOverrides(): Promise<void> {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(STORAGE_KEYS.SIM_OVERRIDES, JSON.stringify({}));
-    this.triggerUpdate("matches");
-  }
-
-  // DYNAMIC BROADCAST SYNC FOR MULTI-TAB BROADCAST
-  private listeners: { [key: string]: ((data?: any) => void)[] } = {};
-
   subscribe(topic: string, callback: (data?: any) => void) {
     if (!this.listeners[topic]) {
       this.listeners[topic] = [];
     }
     this.listeners[topic].push(callback);
-
-    if (typeof window !== "undefined" && !window.__broadcastChannelInitialized) {
-      const channel = new BroadcastChannel("football_score_sync");
-      channel.onmessage = (event) => {
-        const { topic: remoteTopic, data } = event.data;
-        const callbacks = this.listeners[remoteTopic];
-        if (callbacks) {
-          callbacks.forEach(cb => cb(data));
-        }
-      };
-      window.__broadcastChannelInitialized = true;
-      window.__broadcastChannel = channel;
-    }
 
     return () => {
       this.listeners[topic] = this.listeners[topic].filter(cb => cb !== callback);
@@ -476,73 +417,7 @@ export class MockDatabase {
     if (this.listeners[topic]) {
       this.listeners[topic].forEach(cb => cb(data));
     }
-    if (typeof window !== "undefined" && window.__broadcastChannel) {
-      window.__broadcastChannel.postMessage({ topic, data });
-    }
   }
 }
 
-export const db = new MockDatabase();
-
-// Auth Simulation
-export interface UserProfile {
-  uid: string;
-  email: string;
-  displayName: string;
-  photoURL: string;
-  isAdmin: boolean;
-}
-
-export class MockAuth {
-  private userListeners: ((user: UserProfile | null) => void)[] = [];
-
-  constructor() {
-    if (typeof window !== "undefined") {
-      setTimeout(() => {
-        const user = this.getCurrentUser();
-        this.userListeners.forEach(cb => cb(user));
-      }, 100);
-    }
-  }
-
-  getCurrentUser(): UserProfile | null {
-    if (typeof window === "undefined") return null;
-    const data = localStorage.getItem(STORAGE_KEYS.USER);
-    return data ? JSON.parse(data) : null;
-  }
-
-  subscribeToAuthChanges(callback: (user: UserProfile | null) => void) {
-    this.userListeners.push(callback);
-    callback(this.getCurrentUser());
-    return () => {
-      this.userListeners = this.userListeners.filter(cb => cb !== callback);
-    };
-  }
-
-  async signInWithGoogle(): Promise<UserProfile> {
-    const mockUser: UserProfile = {
-      uid: "google_mock_user_123",
-      email: "worldcup.fan@gmail.com",
-      displayName: "Alex Morgan",
-      photoURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80",
-      isAdmin: true
-    };
-    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(mockUser));
-    this.userListeners.forEach(cb => cb(mockUser));
-    return mockUser;
-  }
-
-  async signOut(): Promise<void> {
-    localStorage.removeItem(STORAGE_KEYS.USER);
-    this.userListeners.forEach(cb => cb(null));
-  }
-}
-
-export const auth = new MockAuth();
-
-declare global {
-  interface Window {
-    __broadcastChannelInitialized?: boolean;
-    __broadcastChannel?: BroadcastChannel;
-  }
-}
+export const db = new ApiClient();

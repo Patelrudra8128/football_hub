@@ -42,9 +42,8 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-foreground">Resources</h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><Link href="/profile" className="hover:text-primary transition-colors font-medium">My Profile</Link></li>
-              <li><Link href="/admin" className="hover:text-primary transition-colors font-medium">Admin Dashboard</Link></li>
-              <li><a href="#" className="hover:text-primary transition-colors font-light">Cricket API</a></li>
+              <li><Link href="/design-system" className="hover:text-primary transition-colors font-medium">Design Tokens</Link></li>
+              <li><a href="#" className="hover:text-primary transition-colors font-light">Football API Feed</a></li>
             </ul>
           </div>
 

@@ -2,7 +2,7 @@
 
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Match, Team, MatchEvent } from "@/lib/mockData";
 import { calculatePrediction, PredictionResult } from "@/lib/predictionEngine";
 import { ArrowLeft, Calendar, Clock, BarChart2, Sparkles, AlertCircle, Award, Users } from "lucide-react";

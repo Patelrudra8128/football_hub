@@ -1,5 +1,5 @@
 import { Team } from "./mockData";
-import { db } from "./firebase";
+import { db } from "./api";
 
 export interface PredictionResult {
   homeTeam: Team;

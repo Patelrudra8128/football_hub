@@ -2,7 +2,7 @@
 
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Team, Player } from "@/lib/mockData";
 import { ArrowLeft, Users, Trophy, TrendingUp, Sparkles } from "lucide-react";
 
@@ -195,7 +195,7 @@ export default function TeamProfile({ params }: { params: Promise<{ id: string }
                       {goalkeepers.map(p => (
                         <Link
                           key={p.id}
-                          href={`/profile?id=${p.id}&teamId=${id}`}
+                          href={`/players?id=${p.id}&teamId=${id}`}
                           className="flex justify-between items-center bg-muted/20 border border-border/40 p-2.5 rounded-lg text-xs hover:border-primary/45 transition"
                         >
                           <span className="font-bold text-foreground">{p.name}</span>
@@ -217,7 +217,7 @@ export default function TeamProfile({ params }: { params: Promise<{ id: string }
                       {defenders.map(p => (
                         <Link
                           key={p.id}
-                          href={`/profile?id=${p.id}&teamId=${id}`}
+                          href={`/players?id=${p.id}&teamId=${id}`}
                           className="flex justify-between items-center bg-muted/20 border border-border/40 p-2.5 rounded-lg text-xs hover:border-primary/45 transition"
                         >
                           <span className="font-bold text-foreground">{p.name}</span>
@@ -239,7 +239,7 @@ export default function TeamProfile({ params }: { params: Promise<{ id: string }
                       {midfielders.map(p => (
                         <Link
                           key={p.id}
-                          href={`/profile?id=${p.id}&teamId=${id}`}
+                          href={`/players?id=${p.id}&teamId=${id}`}
                           className="flex justify-between items-center bg-muted/20 border border-border/40 p-2.5 rounded-lg text-xs hover:border-primary/45 transition"
                         >
                           <span className="font-bold text-foreground">{p.name}</span>
@@ -261,7 +261,7 @@ export default function TeamProfile({ params }: { params: Promise<{ id: string }
                       {forwards.map(p => (
                         <Link
                           key={p.id}
-                          href={`/profile?id=${p.id}&teamId=${id}`}
+                          href={`/players?id=${p.id}&teamId=${id}`}
                           className="flex justify-between items-center bg-muted/20 border border-border/40 p-2.5 rounded-lg text-xs hover:border-primary/45 transition"
                         >
                           <span className="font-bold text-foreground">{p.name}</span>

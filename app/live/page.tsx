@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { db } from "@/lib/api";
 import { Match, Team } from "@/lib/mockData";
 import MatchCard from "@/components/MatchCard";
 import { Activity, Clock, BarChart2, Calendar } from "lucide-react";
