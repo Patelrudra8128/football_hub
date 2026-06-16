@@ -44,7 +44,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right Settings Panel */}
-        <div className="flex items-center gap-2 shrink-0 ml-auto">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={toggleTheme}
             className="p-2 text-foreground/85 hover:text-primary rounded-full hover:bg-muted/30 transition-colors"
