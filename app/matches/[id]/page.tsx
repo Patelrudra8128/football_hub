@@ -1,11 +1,12 @@
 "use client";
 
-import React, { use, useState, useEffect } from "react";
+import React, { use, useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { db } from "@/lib/api";
 import { Match, Team, MatchEvent } from "@/lib/mockData";
 import { calculatePrediction, PredictionResult } from "@/lib/predictionEngine";
-import { ArrowLeft, Calendar, Clock, BarChart2, Sparkles, AlertCircle, Award, Users } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, BarChart2, Sparkles, AlertCircle, Award, Users, Tv } from "lucide-react";
 
 // Soccer Field Lineups Representation (4-3-3)
 function SoccerPitch({ starters }: { starters: string[] }) {
@@ -73,15 +74,18 @@ function SoccerPitch({ starters }: { starters: string[] }) {
   );
 }
 
-export default function MatchDetails({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+function MatchDetailsContent({ id }: { id: string }) {
+  const searchParams = useSearchParams();
+  const watchParam = searchParams.get("watch") === "true";
 
   const [match, setMatch] = useState<Match | null>(null);
   const [homeTeam, setHomeTeam] = useState<Team | null>(null);
   const [awayTeam, setAwayTeam] = useState<Team | null>(null);
   const [prediction, setPrediction] = useState<PredictionResult | null>(null);
   
-  const [activeTab, setActiveTab] = useState<"timeline" | "lineups" | "stats" | "prediction">("timeline");
+  const [activeTab, setActiveTab] = useState<"timeline" | "lineups" | "stats" | "prediction" | "watch">(
+    watchParam ? "watch" : "timeline"
+  );
   const [loading, setLoading] = useState(true);
 
   const loadData = () => {
@@ -246,6 +250,13 @@ export default function MatchDetails({ params }: { params: Promise<{ id: string 
           className={`pb-2.5 transition cursor-pointer ${activeTab === "prediction" ? "text-primary border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
         >
           AI Match Predictor
+        </button>
+        <button
+          onClick={() => setActiveTab("watch")}
+          className={`pb-2.5 transition cursor-pointer flex items-center gap-1.5 ${activeTab === "watch" ? "text-primary border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          <Tv className="w-3.5 h-3.5" />
+          <span>Watch Live</span>
         </button>
       </div>
 
@@ -516,8 +527,46 @@ export default function MatchDetails({ params }: { params: Promise<{ id: string 
           </div>
         )}
 
+        {/* 5. Watch Live Tab */}
+        {activeTab === "watch" && (
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-border pb-2 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 bg-destructive rounded-full animate-pulse" />
+                <span>Live Video Telecast Broadcast</span>
+              </span>
+              <span className="text-[10px] text-primary font-bold">Source ID: fifaprime1</span>
+            </h3>
+
+            <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden border border-border/80 shadow-md">
+              <iframe
+                src="https://footsterss.pages.dev/?id=fifaprime1"
+                className="w-full h-full border-none"
+                allowFullScreen
+                allow="autoplay; encrypted-media; picture-in-picture"
+              />
+            </div>
+
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 flex gap-3 items-start text-xs font-semibold text-muted-foreground">
+              <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <p>
+                You are viewing the live match video preview. If the player does not load, verify your network connection or ensure the streaming source is currently broadcasting.
+              </p>
+            </div>
+          </div>
+        )}
+
       </section>
 
     </div>
+  );
+}
+
+export default function MatchDetails({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  return (
+    <Suspense fallback={<div className="text-center py-24 text-xs text-muted-foreground">Loading details...</div>}>
+      <MatchDetailsContent id={id} />
+    </Suspense>
   );
 }

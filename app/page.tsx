@@ -259,9 +259,17 @@ export default function Home() {
                 </div>
                 
                 {featuredMatch.status === "live" && (
-                  <div className="text-right flex items-center gap-1.5 text-destructive font-black uppercase animate-pulse">
-                    <Activity className="w-4 h-4" />
-                    <span>{featuredMatch.minute}&apos; mins</span>
+                  <div className="text-right flex items-center gap-3">
+                    <Link
+                      href={`/matches/${featuredMatch.id}?watch=true`}
+                      className="flex items-center gap-1.5 bg-destructive/10 border border-destructive/20 text-destructive text-[9px] font-black px-2.5 py-1 rounded-lg uppercase hover:bg-destructive/20 transition duration-200"
+                    >
+                      <span>📺 Watch Live</span>
+                    </Link>
+                    <div className="flex items-center gap-1.5 text-destructive font-black uppercase animate-pulse">
+                      <Activity className="w-4 h-4" />
+                      <span>{featuredMatch.minute}&apos; mins</span>
+                    </div>
                   </div>
                 )}
               </div>

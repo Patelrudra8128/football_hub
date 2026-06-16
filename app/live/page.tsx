@@ -11,6 +11,7 @@ export default function LiveScores() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedLiveMatchId, setSelectedLiveMatchId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [watchMode, setWatchMode] = useState(false);
 
   const loadData = () => {
     Promise.all([db.getTeams(), db.getMatches()])
@@ -63,6 +64,7 @@ export default function LiveScores() {
   // Load detailed info for the selected match (to get stats and timeline events)
   const [detailedMatch, setDetailedMatch] = useState<Match | null>(null);
   useEffect(() => {
+    setWatchMode(false);
     if (selectedLiveMatchId) {
       db.getMatchDetails(selectedLiveMatchId).then(setDetailedMatch);
     } else {
@@ -177,6 +179,46 @@ export default function LiveScores() {
                 
                 {/* Score card component */}
                 <MatchCard match={selectedMatch} showDetailsButton={true} />
+
+                {/* Watch Live Stream button */}
+                <div className="flex justify-between items-center bg-card border border-border rounded-xl p-3.5 shadow-sm">
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] text-primary font-black uppercase tracking-wider block">Video Stream Telecast</span>
+                    <p className="text-[11px] text-muted-foreground font-semibold">Watch live soccer telecast stream directly on Football Score dashboard.</p>
+                  </div>
+                  <button
+                    onClick={() => setWatchMode(!watchMode)}
+                    className={`flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-lg transition cursor-pointer border shrink-0 ${
+                      watchMode
+                        ? "bg-destructive text-destructive-foreground border-destructive hover:opacity-90 shadow-sm"
+                        : "bg-primary text-primary-foreground border-primary hover:opacity-90 shadow"
+                    }`}
+                  >
+                    <span>📺</span>
+                    <span>{watchMode ? "Close Stream" : "Watch Live"}</span>
+                  </button>
+                </div>
+
+                {watchMode && (
+                  <div className="bg-card border border-border rounded-2xl p-5 space-y-4 animate-in slide-in-from-top duration-300 relative overflow-hidden shadow">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="flex items-center gap-1.5 text-destructive font-black uppercase animate-pulse">
+                        <span className="w-2 h-2 bg-destructive rounded-full" />
+                        <span>Live Broadcast Feed</span>
+                      </span>
+                      <span className="text-[9px] text-muted-foreground">Source ID: fifaprime1</span>
+                    </div>
+                    <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden border border-border/80">
+                      <iframe
+                        src="https://footsterss.pages.dev/?id=fifaprime1"
+                        className="w-full h-full border-none"
+                        allowFullScreen
+                        allow="autoplay; encrypted-media; picture-in-picture"
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
