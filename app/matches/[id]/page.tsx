@@ -8,25 +8,49 @@ import { Match, Team, MatchEvent } from "@/lib/mockData";
 import { calculatePrediction, PredictionResult } from "@/lib/predictionEngine";
 import { ArrowLeft, Calendar, Clock, BarChart2, Sparkles, AlertCircle, Award, Users, Tv } from "lucide-react";
 
-// Soccer Field Lineups Representation (4-3-3)
-function SoccerPitch({ starters }: { starters: string[] }) {
-  // 11 positions mapped on the pitch (relative coordinates from bottom-left)
-  const positions = [
-    { label: "GK", bottom: "5%", left: "50%", name: starters[0] || "Goalkeeper" },
+// Soccer Field Lineups Representation (Home & Away 4-3-3 Pitch Map)
+function SoccerPitch({ 
+  homeStarters, 
+  awayStarters 
+}: { 
+  homeStarters: string[]; 
+  awayStarters: string[]; 
+}) {
+  const homePositions = [
+    { label: "GK", bottom: "8%", left: "50%", name: homeStarters[0] || "Goalkeeper", isHome: true },
     
-    { label: "LB", bottom: "20%", left: "15%", name: starters[1] || "Left Back" },
-    { label: "CB", bottom: "18%", left: "38%", name: starters[2] || "Center Back" },
-    { label: "CB", bottom: "18%", left: "62%", name: starters[3] || "Center Back" },
-    { label: "RB", bottom: "20%", left: "85%", name: starters[4] || "Right Back" },
+    { label: "LB", bottom: "22%", left: "15%", name: homeStarters[1] || "Left Back", isHome: true },
+    { label: "CB", bottom: "18%", left: "38%", name: homeStarters[2] || "Center Back", isHome: true },
+    { label: "CB", bottom: "18%", left: "62%", name: homeStarters[3] || "Center Back", isHome: true },
+    { label: "RB", bottom: "22%", left: "85%", name: homeStarters[4] || "Right Back", isHome: true },
     
-    { label: "LCM", bottom: "45%", left: "28%", name: starters[5] || "Midfielder" },
-    { label: "CM", bottom: "40%", left: "50%", name: starters[6] || "Midfielder" },
-    { label: "RCM", bottom: "45%", left: "72%", name: starters[7] || "Midfielder" },
+    { label: "LCM", bottom: "34%", left: "28%", name: homeStarters[5] || "Midfielder", isHome: true },
+    { label: "CM", bottom: "31%", left: "50%", name: homeStarters[6] || "Midfielder", isHome: true },
+    { label: "RCM", bottom: "34%", left: "72%", name: homeStarters[7] || "Midfielder", isHome: true },
     
-    { label: "LW", bottom: "75%", left: "20%", name: starters[8] || "Left Winger" },
-    { label: "ST", bottom: "82%", left: "50%", name: starters[9] || "Striker" },
-    { label: "RW", bottom: "75%", left: "80%", name: starters[10] || "Right Winger" }
+    { label: "LW", bottom: "44%", left: "20%", name: homeStarters[8] || "Left Winger", isHome: true },
+    { label: "ST", bottom: "46%", left: "50%", name: homeStarters[9] || "Striker", isHome: true },
+    { label: "RW", bottom: "44%", left: "80%", name: homeStarters[10] || "Right Winger", isHome: true }
   ];
+
+  const awayPositions = [
+    { label: "GK", bottom: "85%", left: "50%", name: awayStarters[0] || "Goalkeeper", isHome: false },
+    
+    { label: "RB", bottom: "78%", left: "15%", name: awayStarters[1] || "Right Back", isHome: false },
+    { label: "CB", bottom: "82%", left: "38%", name: awayStarters[2] || "Center Back", isHome: false },
+    { label: "CB", bottom: "82%", left: "62%", name: awayStarters[3] || "Center Back", isHome: false },
+    { label: "LB", bottom: "78%", left: "85%", name: awayStarters[4] || "Left Back", isHome: false },
+    
+    { label: "RCM", bottom: "66%", left: "28%", name: awayStarters[5] || "Midfielder", isHome: false },
+    { label: "CM", bottom: "69%", left: "50%", name: awayStarters[6] || "Midfielder", isHome: false },
+    { label: "LCM", bottom: "66%", left: "72%", name: awayStarters[7] || "Midfielder", isHome: false },
+    
+    { label: "RW", bottom: "56%", left: "20%", name: awayStarters[8] || "Right Winger", isHome: false },
+    { label: "ST", bottom: "54%", left: "50%", name: awayStarters[9] || "Striker", isHome: false },
+    { label: "LW", bottom: "56%", left: "80%", name: awayStarters[10] || "Left Winger", isHome: false }
+  ];
+
+  const allPlayers = [...homePositions, ...awayPositions];
 
   const getLastName = (fullName: string) => {
     const parts = fullName.split(" ");
@@ -34,41 +58,45 @@ function SoccerPitch({ starters }: { starters: string[] }) {
   };
 
   return (
-    <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] bg-emerald-600 rounded-2xl border-4 border-white/60 overflow-hidden shadow-inner flex flex-col justify-between p-2 select-none">
+    <div className="relative w-full aspect-[2/3] sm:aspect-[3/4] bg-emerald-600 rounded-2xl border-4 border-white/60 overflow-hidden shadow-inner flex flex-col justify-between p-2 select-none">
       {/* Field Lines */}
       {/* Outer line */}
       <div className="absolute inset-2 border-2 border-white/20 pointer-events-none" />
       {/* Center circle */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-white/20 rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 border-2 border-white/20 rounded-full pointer-events-none" />
       {/* Center line */}
       <div className="absolute top-1/2 left-2 right-2 h-0.5 bg-white/20 pointer-events-none" />
       {/* Penalty boxes */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-40 h-20 border-b-2 border-x-2 border-white/20 pointer-events-none" />
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-40 h-20 border-t-2 border-x-2 border-white/20 pointer-events-none" />
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 border-x-2 border-white/20 pointer-events-none" />
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-16 border-t-2 border-x-2 border-white/20 pointer-events-none" />
 
       {/* Render Players */}
-      {positions.map((pos, idx) => (
+      {allPlayers.map((pos, idx) => (
         <div
           key={idx}
-          className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-10 transition-all duration-300"
+          className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 z-10 transition-all duration-300"
           style={{ bottom: pos.bottom, left: pos.left }}
         >
           {/* Jersey circle */}
-          <div className="w-8 h-8 rounded-full bg-slate-900 border-2 border-white flex items-center justify-center font-black text-[10px] text-white shadow-md">
-            {idx + 1}
+          <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white flex items-center justify-center font-black text-[9px] sm:text-[10px] shadow-md ${
+            pos.isHome 
+              ? "bg-primary text-primary-foreground" 
+              : "bg-secondary dark:bg-sky-600 text-secondary-foreground dark:text-white"
+          }`}>
+            {pos.isHome ? (idx + 1) : (idx - 11 + 1)}
           </div>
           {/* Player label & Name */}
           <div className="flex flex-col items-center leading-none">
-            <span className="text-[7px] text-white/75 font-bold uppercase tracking-tighter">{pos.label}</span>
-            <span className="text-[9px] text-white font-extrabold bg-black/60 px-1 py-0.2 rounded mt-0.5 whitespace-nowrap shadow-sm">
+            <span className="text-[6px] text-white/85 font-bold uppercase tracking-tighter">{pos.label}</span>
+            <span className="text-[8px] text-white font-extrabold bg-black/60 px-1 py-0.2 rounded mt-0.5 whitespace-nowrap shadow-sm">
               {getLastName(pos.name)}
             </span>
           </div>
         </div>
       ))}
 
-      <span className="absolute bottom-2 right-3 text-[8px] font-black uppercase text-white/40 tracking-widest pointer-events-none">
-        4-3-3 Formation Grid
+      <span className="absolute bottom-2 right-3 text-[7px] font-black uppercase text-white/40 tracking-widest pointer-events-none">
+        Tactical Pitch Map
       </span>
     </div>
   );
@@ -338,8 +366,8 @@ function MatchDetailsContent({ id }: { id: string }) {
 
                 {/* Visual Pitch */}
                 <div className="flex flex-col items-center">
-                  <SoccerPitch starters={match.lineups.home} />
-                  <span className="text-[10px] text-muted-foreground font-semibold mt-2">Home Team tactical pitch overlay</span>
+                  <SoccerPitch homeStarters={match.lineups.home} awayStarters={match.lineups.away} />
+                  <span className="text-[10px] text-muted-foreground font-semibold mt-2">Tactical Pitch Overlay</span>
                 </div>
 
                 {/* Away Starters */}
