@@ -109,12 +109,10 @@ export default function PredictionCenter() {
         </div>
       ) : (
         /* Main split grid */
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
-          {/* Left Column: Form Predictor & Upcoming predictions list */}
-          <div className="lg:col-span-1 space-y-6">
-            
-            {/* Custom Matchup Predictor Form */}
+          {/* Custom Matchup Predictor Form */}
+          <div className="lg:col-start-1 lg:row-start-1 lg:col-span-1">
             <div className="bg-card border border-border rounded-xl p-5 space-y-4 shadow-sm">
               <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-2">{t("predictions.customSelector")}</h3>
               
@@ -180,42 +178,10 @@ export default function PredictionCenter() {
                 </button>
               </form>
             </div>
-
-            {/* Quick Predict Upcoming Matches List */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">{t("predictions.quickForecast")}</h3>
-              
-              {upcomingMatches.length > 0 ? (
-                <div className="space-y-2.5">
-                  {upcomingMatches.map(m => {
-                    const hTeam = getTeam(m.homeTeamId);
-                    const aTeam = getTeam(m.awayTeamId);
-                    if (!hTeam || !aTeam) return null;
-
-                    return (
-                      <button
-                        key={m.id}
-                        onClick={() => predictUpcomingMatch(m.homeTeamId, m.awayTeamId)}
-                        className="w-full p-3.5 bg-card border border-border hover:border-primary/45 rounded-lg flex items-center justify-between text-left text-xs transition shadow-sm cursor-pointer"
-                      >
-                        <div>
-                          <span className="text-[8px] uppercase tracking-wider text-muted-foreground font-extrabold block mb-1">{m.group}</span>
-                          <span className="font-extrabold text-foreground">{hTeam.flag} {hTeam.code} vs {aTeam.flag} {aTeam.code}</span>
-                        </div>
-                        <span className="text-[10px] text-primary font-bold hover:underline shrink-0">{t("nav.predict")} &rarr;</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-xs text-muted-foreground font-medium">{t("predictions.noForecastAvailable")}</p>
-              )}
-            </div>
-
           </div>
 
-          {/* Right Column: AI predictions display */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* AI predictions display */}
+          <div className="lg:col-start-2 lg:row-start-1 lg:col-span-2 lg:row-span-2 space-y-6">
             <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">{t("predictions.forecastOutcome")}</h3>
 
             {loading ? (
@@ -231,6 +197,37 @@ export default function PredictionCenter() {
                 <p className="text-sm font-extrabold text-foreground uppercase tracking-wider">{t("predictions.readyToForecast")}</p>
                 <p className="text-[11px] text-muted-foreground max-w-sm mt-1">{t("predictions.forecastHint")}</p>
               </div>
+            )}
+          </div>
+
+          {/* Quick Predict Upcoming Matches List */}
+          <div className="lg:col-start-1 lg:row-start-2 lg:col-span-1 space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-muted-foreground border-b border-border/60 pb-1.5">{t("predictions.quickForecast")}</h3>
+            
+            {upcomingMatches.length > 0 ? (
+              <div className="space-y-2.5">
+                {upcomingMatches.map(m => {
+                  const hTeam = getTeam(m.homeTeamId);
+                  const aTeam = getTeam(m.awayTeamId);
+                  if (!hTeam || !aTeam) return null;
+
+                  return (
+                    <button
+                      key={m.id}
+                      onClick={() => predictUpcomingMatch(m.homeTeamId, m.awayTeamId)}
+                      className="w-full p-3.5 bg-card border border-border hover:border-primary/45 rounded-lg flex items-center justify-between text-left text-xs transition shadow-sm cursor-pointer"
+                    >
+                      <div>
+                        <span className="text-[8px] uppercase tracking-wider text-muted-foreground font-extrabold block mb-1">{m.group}</span>
+                        <span className="font-extrabold text-foreground">{hTeam.flag} {hTeam.code} vs {aTeam.flag} {aTeam.code}</span>
+                      </div>
+                      <span className="text-[10px] text-primary font-bold hover:underline shrink-0">{t("nav.predict")} &rarr;</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground font-medium">{t("predictions.noForecastAvailable")}</p>
             )}
           </div>
 
