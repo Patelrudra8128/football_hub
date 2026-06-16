@@ -383,7 +383,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full" style={{ width: `${match.stats.possession[0]}%` }} />
-                    <div className="bg-secondary h-full" style={{ width: `${match.stats.possession[1]}%` }} />
+                    <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${match.stats.possession[1]}%` }} />
                   </div>
                 </div>
 
@@ -396,7 +396,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full" style={{ width: `${(match.stats.shots[0] / (match.stats.shots[0] + match.stats.shots[1] || 1)) * 100}%` }} />
-                    <div className="bg-secondary h-full" style={{ width: `${(match.stats.shots[1] / (match.stats.shots[0] + match.stats.shots[1] || 1)) * 100}%` }} />
+                    <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(match.stats.shots[1] / (match.stats.shots[0] + match.stats.shots[1] || 1)) * 100}%` }} />
                   </div>
                 </div>
 
@@ -409,7 +409,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full" style={{ width: `${(match.stats.shotsOnTarget[0] / (match.stats.shotsOnTarget[0] + match.stats.shotsOnTarget[1] || 1)) * 100}%` }} />
-                    <div className="bg-secondary h-full" style={{ width: `${(match.stats.shotsOnTarget[1] / (match.stats.shotsOnTarget[0] + match.stats.shotsOnTarget[1] || 1)) * 100}%` }} />
+                    <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(match.stats.shotsOnTarget[1] / (match.stats.shotsOnTarget[0] + match.stats.shotsOnTarget[1] || 1)) * 100}%` }} />
                   </div>
                 </div>
 
@@ -422,7 +422,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full" style={{ width: `${(match.stats.corners[0] / (match.stats.corners[0] + match.stats.corners[1] || 1)) * 100}%` }} />
-                    <div className="bg-secondary h-full" style={{ width: `${(match.stats.corners[1] / (match.stats.corners[0] + match.stats.corners[1] || 1)) * 100}%` }} />
+                    <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(match.stats.corners[1] / (match.stats.corners[0] + match.stats.corners[1] || 1)) * 100}%` }} />
                   </div>
                 </div>
 
@@ -435,7 +435,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden flex">
                     <div className="bg-primary h-full" style={{ width: `${(match.stats.fouls[0] / (match.stats.fouls[0] + match.stats.fouls[1] || 1)) * 100}%` }} />
-                    <div className="bg-secondary h-full" style={{ width: `${(match.stats.fouls[1] / (match.stats.fouls[0] + match.stats.fouls[1] || 1)) * 100}%` }} />
+                    <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(match.stats.fouls[1] / (match.stats.fouls[0] + match.stats.fouls[1] || 1)) * 100}%` }} />
                   </div>
                 </div>
 
@@ -446,7 +446,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                     <div className="flex justify-center items-center gap-2 font-mono font-black text-sm">
                       <span className="text-primary">{match.stats.cards.yellow[0]}</span>
                       <span className="text-muted-foreground/30">:</span>
-                      <span className="text-secondary">{match.stats.cards.yellow[1]}</span>
+                      <span className="text-secondary dark:text-sky-400">{match.stats.cards.yellow[1]}</span>
                     </div>
                   </div>
                   <div className="bg-muted/30 p-3 rounded-xl border border-border/40">
@@ -454,7 +454,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                     <div className="flex justify-center items-center gap-2 font-mono font-black text-sm">
                       <span className="text-primary">{match.stats.cards.red[0]}</span>
                       <span className="text-muted-foreground/30">:</span>
-                      <span className="text-secondary">{match.stats.cards.red[1]}</span>
+                      <span className="text-secondary dark:text-sky-400">{match.stats.cards.red[1]}</span>
                     </div>
                   </div>
                 </div>
@@ -483,7 +483,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                 <div className="grid grid-cols-3 gap-2.5 text-center font-bold">
                   <div className="bg-card/60 p-3 rounded-lg border border-border/40">
                     <span className="block text-[8px] uppercase text-muted-foreground">{prediction.homeTeam.code} Wins</span>
-                    <span className="text-lg font-mono font-black text-secondary">{prediction.homeWinProb}%</span>
+                    <span className="text-lg font-mono font-black text-primary">{prediction.homeWinProb}%</span>
                   </div>
                   <div className="bg-card/60 p-3 rounded-lg border border-border/40">
                     <span className="block text-[8px] uppercase text-muted-foreground">Draw</span>
@@ -491,7 +491,7 @@ function MatchDetailsContent({ id }: { id: string }) {
                   </div>
                   <div className="bg-card/60 p-3 rounded-lg border border-border/40">
                     <span className="block text-[8px] uppercase text-muted-foreground">{prediction.awayTeam.code} Wins</span>
-                    <span className="text-lg font-mono font-black text-primary">{prediction.awayWinProb}%</span>
+                    <span className="text-lg font-mono font-black text-secondary dark:text-sky-400">{prediction.awayWinProb}%</span>
                   </div>
                 </div>
 

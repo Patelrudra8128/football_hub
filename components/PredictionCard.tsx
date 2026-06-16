@@ -120,7 +120,7 @@ Analyzed by #FootballScore! Check it out!`;
           <div className="flex justify-between text-[11px] font-bold text-muted-foreground">
             <span className="text-primary">{homeTeam.name}: {homeWinProb}%</span>
             <span className="text-muted-foreground/80">{t("common.d") || "Draw"}: {drawProb}%</span>
-            <span className="text-secondary">{awayTeam.name}: {awayWinProb}%</span>
+            <span className="text-secondary dark:text-sky-400">{awayTeam.name}: {awayWinProb}%</span>
           </div>
           
           <div className="h-4 w-full rounded-lg overflow-hidden flex bg-muted border border-border">
@@ -142,7 +142,7 @@ Analyzed by #FootballScore! Check it out!`;
             </div>
             {/* Away Win Segment */}
             <div 
-              className="bg-secondary h-full flex items-center justify-center text-[9px] font-black text-secondary-foreground transition-all duration-700 uppercase tracking-widest" 
+              className="bg-secondary dark:bg-sky-600 h-full flex items-center justify-center text-[9px] font-black text-secondary-foreground dark:text-white transition-all duration-700 uppercase tracking-widest" 
               style={{ width: `${awayWinProb}%` }}
               title={`${awayTeam.name} win probability: ${awayWinProb}%`}
             >

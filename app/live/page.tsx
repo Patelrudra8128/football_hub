@@ -270,7 +270,7 @@ export default function LiveScores() {
                           </div>
                           <div className="h-1 bg-muted rounded-full overflow-hidden flex">
                             <div className="bg-primary h-full" style={{ width: `${detailedMatch.stats.possession[0]}%` }} />
-                            <div className="bg-secondary h-full" style={{ width: `${detailedMatch.stats.possession[1]}%` }} />
+                            <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${detailedMatch.stats.possession[1]}%` }} />
                           </div>
                         </div>
 
@@ -283,7 +283,7 @@ export default function LiveScores() {
                           </div>
                           <div className="h-1 bg-muted rounded-full overflow-hidden flex">
                             <div className="bg-primary h-full" style={{ width: `${(detailedMatch.stats.shots[0] / (detailedMatch.stats.shots[0] + detailedMatch.stats.shots[1] || 1)) * 100}%` }} />
-                            <div className="bg-secondary h-full" style={{ width: `${(detailedMatch.stats.shots[1] / (detailedMatch.stats.shots[0] + detailedMatch.stats.shots[1] || 1)) * 100}%` }} />
+                            <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(detailedMatch.stats.shots[1] / (detailedMatch.stats.shots[0] + detailedMatch.stats.shots[1] || 1)) * 100}%` }} />
                           </div>
                         </div>
 
@@ -296,7 +296,7 @@ export default function LiveScores() {
                           </div>
                           <div className="h-1 bg-muted rounded-full overflow-hidden flex">
                             <div className="bg-primary h-full" style={{ width: `${(detailedMatch.stats.corners[0] / (detailedMatch.stats.corners[0] + detailedMatch.stats.corners[1] || 1)) * 100}%` }} />
-                            <div className="bg-secondary h-full" style={{ width: `${(detailedMatch.stats.corners[1] / (detailedMatch.stats.corners[0] + detailedMatch.stats.corners[1] || 1)) * 100}%` }} />
+                            <div className="bg-secondary dark:bg-sky-600 h-full" style={{ width: `${(detailedMatch.stats.corners[1] / (detailedMatch.stats.corners[0] + detailedMatch.stats.corners[1] || 1)) * 100}%` }} />
                           </div>
                         </div>
 
