@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, Trophy, CheckCircle2, ArrowRight, Clock, HelpCircle } from "lucide-react";
+import { Sparkles, CheckCircle2, ArrowRight, Clock, HelpCircle } from "lucide-react";
 
 export default function LuckyDrawBanner() {
   const [stage, setStage] = useState<"start" | "progress" | "success">("start");

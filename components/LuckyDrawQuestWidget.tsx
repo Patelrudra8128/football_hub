@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { 
   Trophy, Clock, CheckCircle2, Gift, Mail, 
-  User, Phone, MapPin, Loader2, Sparkles, AlertCircle,
+  User, Phone, MapPin, Loader2, AlertCircle,
   ArrowRight, X
 } from "lucide-react";
 import { enrollInLuckyDraw } from "@/lib/firebase";
@@ -176,8 +176,9 @@ export default function LuckyDrawQuestWidget() {
           setIsEnrolled(true);
         }, 3000);
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred during enrollment.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "An error occurred during enrollment.";
+      setError(errMsg);
     } finally {
       setSubmitting(false);
     }
