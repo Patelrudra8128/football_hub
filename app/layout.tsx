@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 // import LiveScoreBar from "@/components/LiveScoreBar";
 import MobileNav from "@/components/MobileNav";
+import LuckyDrawQuestWidget from "@/components/LuckyDrawQuestWidget";
 
 export const metadata: Metadata = {
   title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
@@ -46,6 +47,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <MobileNav />
+            <LuckyDrawQuestWidget />
           </ThemeProvider>
         </LanguageProvider>
       </body>

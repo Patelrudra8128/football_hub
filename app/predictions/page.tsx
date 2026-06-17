@@ -62,6 +62,10 @@ export default function PredictionCenter() {
       await new Promise(resolve => setTimeout(resolve, 800));
       const res = await calculatePrediction(homeTeamId, awayTeamId);
       setPrediction(res);
+      if (localStorage.getItem("lucky_draw_quest_active") === "true") {
+        localStorage.setItem("lucky_draw_prediction_run", "true");
+        window.dispatchEvent(new Event("storage"));
+      }
     } catch (err) {
       const errorObj = err as Error;
       setError(errorObj.message || "An unexpected error occurred.");
@@ -79,6 +83,10 @@ export default function PredictionCenter() {
       await new Promise(resolve => setTimeout(resolve, 800));
       const res = await calculatePrediction(homeId, awayId);
       setPrediction(res);
+      if (localStorage.getItem("lucky_draw_quest_active") === "true") {
+        localStorage.setItem("lucky_draw_prediction_run", "true");
+        window.dispatchEvent(new Event("storage"));
+      }
     } catch (err) {
       const errorObj = err as Error;
       setError(errorObj.message || "An unexpected error occurred.");
