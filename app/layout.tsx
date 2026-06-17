@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LiveScoreBar from "@/components/LiveScoreBar";
 import MobileNav from "@/components/MobileNav";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
     description: "Real-time World Cup standings, interactive metrics charts, and AI match outcome forecasts.",
+  },
+  other: {
+    monetag: "0614d9bb504d89645de55b2bae139b70"
   }
 };
 
@@ -32,32 +36,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-    <head>
-      <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
-
-      {/*Monetag Tag - Push Ads*/}
-      <script src="https://5gvci.com/act/files/tag.min.js?z=11157509" data-cfasync="false" async></script>
-
-      {/*Monetag Tag - In-page Push Ads*/}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(s){s.dataset.zone = '11157575',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`
-        }}
-      />
-
-      {/*Monetag Tag - Vignette Ads*/}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`
-        }}
-      />
-    </head>
-    <body
+      <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
-    <LanguageProvider>
-      <ThemeProvider>
-        <Navbar/>
-        {/*<LiveScoreBar />*/}
+        
+        {/* Monetag Tag - Push Ads */}
+        <Script
+          src="https://5gvci.com/act/files/tag.min.js?z=11157509"
+          data-cfasync="false"
+          strategy="afterInteractive"
+        />
+
+        {/* Monetag Tag - In-page Push Ads */}
+        <Script id="monetag-inpage-push" strategy="afterInteractive">
+          {`(function(s){s.dataset.zone = '11157715',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
+        </Script>
+
+        {/* Monetag Tag - Vignette Ads */}
+        <Script id="monetag-vignette" strategy="afterInteractive">
+          {`(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
+        </Script>
+
+        <LanguageProvider>
+          <ThemeProvider>
+            <Navbar/>
+            {/*<LiveScoreBar />*/}
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 pb-20 xl:pb-10">
               {children}
             </main>
