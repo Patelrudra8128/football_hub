@@ -32,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+    <head>
+      <script src="https://quge5.com/88/tag.min.js" data-zone="250791" async data-cfasync="false"></script>
+    </head>
     <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
         <LanguageProvider>
