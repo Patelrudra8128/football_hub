@@ -23,9 +23,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
     description: "Real-time World Cup standings, interactive metrics charts, and AI match outcome forecasts.",
-  },
-  other: {
-    monetag: "0614d9bb504d89645de55b2bae139b70"
   }
 };
 
@@ -36,7 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body
+    <head>
+      <meta name="monetag" content="0614d9bb504d89645de55b2bae139b70"/>
+    </head>
+    <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
 
     {/* Monetag Tag - Push Ads */}
