@@ -9,6 +9,7 @@ import {
   Search, Users, Award, ChevronRight 
 } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
+import LuckyDrawBanner from "@/components/LuckyDrawBanner";
 
 export default function Home() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -149,6 +150,9 @@ export default function Home() {
           />
         </div>
       </section>
+
+      {/* LUCKY DRAW BANNER */}
+      <LuckyDrawBanner />
 
       {/* SEARCH RESULTS PANEL */}
       {showSearchResults && (
@@ -561,7 +565,7 @@ export default function Home() {
 
         {/* Right Column (35% width): FIFA Group standings table */}
         <div className="space-y-6">
-          <div className="space-y-4">
+          <div id="standings-section" className="space-y-4">
             <div className="flex justify-between items-center border-b border-border pb-3">
               <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
                 <Trophy className="w-4 h-4 text-primary" />
@@ -645,7 +649,7 @@ export default function Home() {
           </div>
 
           {/* Trending Football News */}
-          <div className="space-y-4">
+          <div id="trending-news-section" className="space-y-4">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-foreground flex items-center gap-2">
               <Award className="w-4 h-4 text-primary" />
               <span>{t("home.trendingNews")}</span>
