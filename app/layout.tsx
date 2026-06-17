@@ -38,23 +38,26 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
-        
-        {/* Monetag Tag - Push Ads */}
-        <Script
-          src="https://5gvci.com/act/files/tag.min.js?z=11157509"
-          data-cfasync="false"
-          strategy="afterInteractive"
-        />
 
-        {/* Monetag Tag - In-page Push Ads */}
-        <Script id="monetag-inpage-push" strategy="afterInteractive">
-          {`(function(s){s.dataset.zone = '11157715',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
-        </Script>
+    {/* Monetag Tag - Push Ads */}
+    <Script
+        src="https://5gvci.com/act/files/tag.min.js?z=11157509"
+        data-cfasync="false"
+        strategy="afterInteractive"
+        async
+    />
 
-        {/* Monetag Tag - Vignette Ads */}
-        <Script id="monetag-vignette" strategy="afterInteractive">
-          {`(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
-        </Script>
+    {/* Monetag Tag - In-page Push Ads */}
+    <Script id="monetag-inpage-push" strategy="afterInteractive">
+      {`(function(s){s.dataset.zone = '11157575',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,
+      document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
+    </Script>
+
+    {/* Monetag Tag - Vignette Ads */}
+    <Script id="monetag-vignette" strategy="afterInteractive">
+      {`(function(s){s.dataset.zone = '11157715',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement,
+      document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
+    </Script>
 
         <LanguageProvider>
           <ThemeProvider>
