@@ -124,14 +124,28 @@ export default function LiveScores() {
                       </div>
                       <div className="flex justify-between items-center font-bold text-xs">
                         <div className="flex items-center gap-1.5">
-                          <span>{getTeam(m.homeTeamId)?.flag}</span>
+                          {(() => {
+                            const team = getTeam(m.homeTeamId);
+                            return team?.logo ? (
+                              <img src={team.logo} alt={team.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                            ) : (
+                              <span>{team?.flag}</span>
+                            );
+                          })()}
                           <span>{getTeam(m.homeTeamId)?.code}</span>
                         </div>
                         <span className="text-foreground">{m.homeScore}</span>
                       </div>
                       <div className="flex justify-between items-center font-bold text-xs mt-1">
                         <div className="flex items-center gap-1.5">
-                          <span>{getTeam(m.awayTeamId)?.flag}</span>
+                          {(() => {
+                            const team = getTeam(m.awayTeamId);
+                            return team?.logo ? (
+                              <img src={team.logo} alt={team.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                            ) : (
+                              <span>{team?.flag}</span>
+                            );
+                          })()}
                           <span>{getTeam(m.awayTeamId)?.code}</span>
                         </div>
                         <span className="text-foreground">{m.awayScore}</span>
@@ -157,7 +171,27 @@ export default function LiveScores() {
                       <span>{m.status === "finished" ? t("liveTracker.fullTimeLabel") : t("liveTracker.scheduledLabel")}</span>
                     </div>
                     <div className="flex justify-between items-center font-bold">
-                      <span className="truncate max-w-[150px]">{getTeam(m.homeTeamId)?.flag} {getTeam(m.homeTeamId)?.code} vs {getTeam(m.awayTeamId)?.code} {getTeam(m.awayTeamId)?.flag}</span>
+                      <span className="flex items-center gap-1 truncate max-w-[170px]">
+                        {(() => {
+                          const hTeam = getTeam(m.homeTeamId);
+                          return hTeam?.logo ? (
+                            <img src={hTeam.logo} alt={hTeam.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{hTeam?.flag}</span>
+                          );
+                        })()}
+                        <span>{getTeam(m.homeTeamId)?.code}</span>
+                        <span className="text-muted-foreground/60 font-light font-mono text-[10px] mx-0.5">vs</span>
+                        <span>{getTeam(m.awayTeamId)?.code}</span>
+                        {(() => {
+                          const aTeam = getTeam(m.awayTeamId);
+                          return aTeam?.logo ? (
+                            <img src={aTeam.logo} alt={aTeam.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{aTeam?.flag}</span>
+                          );
+                        })()}
+                      </span>
                       {m.status === "finished" ? (
                         <span className="font-mono text-primary font-black">{m.homeScore} - {m.awayScore}</span>
                       ) : (

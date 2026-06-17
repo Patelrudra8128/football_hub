@@ -83,6 +83,9 @@ export default function TournamentBracket() {
     const homeWon = match.homeTeam.score !== undefined && match.awayTeam.score !== undefined && match.homeTeam.score > match.awayTeam.score;
     const awayWon = match.homeTeam.score !== undefined && match.awayTeam.score !== undefined && match.awayTeam.score > match.homeTeam.score;
 
+    const homeLogo = match.homeTeam.logo || `https://a.espncdn.com/i/teamlogos/countries/500/${match.homeTeam.code.toLowerCase()}.png`;
+    const awayLogo = match.awayTeam.logo || `https://a.espncdn.com/i/teamlogos/countries/500/${match.awayTeam.code.toLowerCase()}.png`;
+
     return (
       <div className="bg-card border border-border/80 rounded-lg p-3 w-56 shadow-sm hover:border-primary transition select-none flex flex-col gap-2 relative">
         <div className="text-[9px] font-bold text-muted-foreground uppercase flex justify-between border-b border-border/50 pb-1">
@@ -94,7 +97,7 @@ export default function TournamentBracket() {
           {/* Home team */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1.5">
-              <span>{match.homeTeam.flag}</span>
+              <img src={homeLogo} alt={match.homeTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
               <span className={`font-semibold ${homeWon ? "text-foreground font-extrabold" : "text-muted-foreground"}`}>{match.homeTeam.code}</span>
             </div>
             {match.homeTeam.score !== undefined ? (
@@ -107,7 +110,7 @@ export default function TournamentBracket() {
           {/* Away team */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1.5">
-              <span>{match.awayTeam.flag}</span>
+              <img src={awayLogo} alt={match.awayTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
               <span className={`font-semibold ${awayWon ? "text-foreground font-extrabold" : "text-muted-foreground"}`}>{match.awayTeam.code}</span>
             </div>
             {match.awayTeam.score !== undefined ? (

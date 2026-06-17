@@ -79,17 +79,30 @@ export default function LiveScoreBar() {
                   {match.stage}
                 </span>
 
-                {/* Score Summary */}
                 <div className="flex items-center gap-1.5 font-bold">
-                  <span>{homeTeam?.flag} {homeTeam?.code}</span>
+                  <span className="flex items-center gap-1">
+                    {homeTeam?.logo ? (
+                      <img src={homeTeam.logo} alt={homeTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span>{homeTeam?.flag}</span>
+                    )}
+                    <span>{homeTeam?.code}</span>
+                  </span>
                   {isFinished || isLive ? (
                     <span className="font-mono text-primary font-black px-1.5 bg-background border border-border/60 rounded">
                       {match.homeScore} - {match.awayScore}
                     </span>
                   ) : (
-                    <span className="text-muted-foreground/60 font-light font-mono text-[10px]">vs</span>
+                    <span className="text-muted-foreground/60 font-light font-mono text-[10px] mx-0.5">vs</span>
                   )}
-                  <span>{awayTeam?.code} {awayTeam?.flag}</span>
+                  <span className="flex items-center gap-1">
+                    <span>{awayTeam?.code}</span>
+                    {awayTeam?.logo ? (
+                      <img src={awayTeam.logo} alt={awayTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span>{awayTeam?.flag}</span>
+                    )}
+                  </span>
                 </div>
 
                 {/* Live Pill */}

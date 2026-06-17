@@ -220,7 +220,14 @@ export default function Home() {
                       href={`/teams/${t.id}`}
                       className="block p-2.5 rounded border border-border/60 hover:border-primary/45 bg-muted/20 text-xs transition"
                     >
-                      <div className="font-bold">{t.flag} {t.name}</div>
+                      <div className="font-bold flex items-center gap-1.5">
+                        {t.logo ? (
+                          <img src={t.logo} alt={t.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                        ) : (
+                          <span>{t.flag}</span>
+                        )}
+                        <span>{t.name}</span>
+                      </div>
                       <div className="text-[10px] text-muted-foreground">Rank: #{t.fifaRanking}</div>
                     </Link>
                   ))}
@@ -280,7 +287,14 @@ export default function Home() {
               <div className="flex items-center justify-around py-4 border-y border-border/60">
                 {/* Team A */}
                 <div className="flex flex-col items-center gap-1.5 text-center">
-                  <span className="text-5xl select-none">{getTeam(featuredMatch.homeTeamId)?.flag}</span>
+                  {(() => {
+                    const team = getTeam(featuredMatch.homeTeamId);
+                    return team?.logo ? (
+                      <img src={team.logo} alt={team.name} className="w-16 h-16 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span className="text-5xl select-none">{team?.flag || "🏳️"}</span>
+                    );
+                  })()}
                   <span className="font-black text-sm text-foreground">{getTeam(featuredMatch.homeTeamId)?.code}</span>
                 </div>
 
@@ -293,7 +307,14 @@ export default function Home() {
 
                 {/* Team B */}
                 <div className="flex flex-col items-center gap-1.5 text-center">
-                  <span className="text-5xl select-none">{getTeam(featuredMatch.awayTeamId)?.flag}</span>
+                  {(() => {
+                    const team = getTeam(featuredMatch.awayTeamId);
+                    return team?.logo ? (
+                      <img src={team.logo} alt={team.name} className="w-16 h-16 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span className="text-5xl select-none">{team?.flag || "🏳️"}</span>
+                    );
+                  })()}
                   <span className="font-black text-sm text-foreground">{getTeam(featuredMatch.awayTeamId)?.code}</span>
                 </div>
               </div>
@@ -355,7 +376,11 @@ export default function Home() {
                 {pinnedCountries.map(team => (
                   <div key={team.id} className="flex items-center justify-between bg-muted/30 border border-border/60 rounded-lg px-2.5 py-1.5 text-xs">
                     <span className="flex items-center gap-1.5 font-bold">
-                      <span className="text-base">{team.flag}</span>
+                      {team.logo ? (
+                        <img src={team.logo} alt={team.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                      ) : (
+                        <span className="text-base">{team.flag}</span>
+                      )}
                       <span>{team.code}</span>
                     </span>
                     <button
@@ -420,11 +445,21 @@ export default function Home() {
                       
                       <div className="flex items-center gap-3 justify-center md:justify-start">
                         <div className="flex items-center gap-1.5 font-bold text-sm">
-                          <span>{homeTeam?.flag} {homeTeam?.name}</span>
+                          {homeTeam?.logo ? (
+                            <img src={homeTeam.logo} alt={homeTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{homeTeam?.flag}</span>
+                          )}
+                          <span>{homeTeam?.name}</span>
                         </div>
                         <span className="text-muted-foreground text-xs font-mono">:</span>
                         <div className="flex items-center gap-1.5 font-bold text-sm">
-                          <span>{awayTeam?.name} {awayTeam?.flag}</span>
+                          <span>{awayTeam?.name}</span>
+                          {awayTeam?.logo ? (
+                            <img src={awayTeam.logo} alt={awayTeam.name} className="w-4.5 h-4.5 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{awayTeam?.flag}</span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -588,7 +623,11 @@ export default function Home() {
                             >
                               <Star className={`w-3.5 h-3.5 ${isFav ? "fill-primary text-primary" : ""}`} />
                             </button>
-                            <span className="text-lg shrink-0">{team.flag}</span>
+                            {team.logo ? (
+                              <img src={team.logo} alt={team.name} className="w-4.5 h-4.5 object-contain shrink-0 filter drop-shadow-sm select-none" />
+                            ) : (
+                              <span className="text-lg shrink-0">{team.flag}</span>
+                            )}
                             <span className="truncate max-w-[80px] font-bold">{team.name}</span>
                           </div>
                         </td>

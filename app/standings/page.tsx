@@ -169,7 +169,7 @@ export default function StandingsAndBracket() {
                                   </span>
                                 </td>
                                 <td className="p-3 font-semibold text-foreground">
-                                  <div className="flex items-center gap-2.5">
+                                   <div className="flex items-center gap-2.5">
                                     <button
                                       onClick={() => handleToggleFavorite(tTeam.id)}
                                       className="p-0.5 text-muted-foreground/60 hover:text-primary transition-colors shrink-0 cursor-pointer"
@@ -177,7 +177,11 @@ export default function StandingsAndBracket() {
                                     >
                                       <Star className={`w-3.5 h-3.5 ${isFav ? "fill-primary text-primary" : ""}`} />
                                     </button>
-                                    <span className="text-xl shrink-0">{mappedTeam?.flag || "🏳️"}</span>
+                                    {mappedTeam?.logo ? (
+                                      <img src={mappedTeam.logo} alt={mappedTeam.name} className="w-5 h-5 object-contain shrink-0 filter drop-shadow-sm select-none" />
+                                    ) : (
+                                      <span className="text-xl shrink-0">{mappedTeam?.flag || "🏳️"}</span>
+                                    )}
                                     <span className="font-extrabold text-foreground">{tTeam.displayName}</span>
                                     <span className="text-[10px] text-muted-foreground font-normal">({tTeam.abbreviation})</span>
                                   </div>
@@ -233,7 +237,11 @@ export default function StandingsAndBracket() {
                               >
                                 <Star className={`w-3.5 h-3.5 ${isFav ? "fill-primary text-primary" : ""}`} />
                               </button>
-                              <span className="text-xl shrink-0">{team.flag}</span>
+                              {team.logo ? (
+                                <img src={team.logo} alt={team.name} className="w-5 h-5 object-contain shrink-0 filter drop-shadow-sm select-none" />
+                              ) : (
+                                <span className="text-xl shrink-0">{team.flag}</span>
+                              )}
                               <span className="font-extrabold text-foreground">{team.name}</span>
                             </div>
                           </td>

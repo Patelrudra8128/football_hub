@@ -88,7 +88,11 @@ Analyzed by #FootballScore! Check it out!`;
         <div className="flex items-center justify-between gap-4">
           {/* Home team */}
           <div className="flex-1 flex flex-col items-center text-center">
-            <span className="text-4xl md:text-5xl mb-2 select-none">{homeTeam.flag}</span>
+            {homeTeam.logo ? (
+              <img src={homeTeam.logo} alt={homeTeam.name} className="w-12 h-12 md:w-16 md:h-16 object-contain mb-2 filter drop-shadow-sm select-none" />
+            ) : (
+              <span className="text-4xl md:text-5xl mb-2 select-none">{homeTeam.flag}</span>
+            )}
             <span className="text-sm font-black text-foreground leading-tight tracking-tight">{homeTeam.name}</span>
             <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{homeTeam.fifaRanking}</span>
           </div>
@@ -109,7 +113,11 @@ Analyzed by #FootballScore! Check it out!`;
 
           {/* Away team */}
           <div className="flex-1 flex flex-col items-center text-center">
-            <span className="text-4xl md:text-5xl mb-2 select-none">{awayTeam.flag}</span>
+            {awayTeam.logo ? (
+              <img src={awayTeam.logo} alt={awayTeam.name} className="w-12 h-12 md:w-16 md:h-16 object-contain mb-2 filter drop-shadow-sm select-none" />
+            ) : (
+              <span className="text-4xl md:text-5xl mb-2 select-none">{awayTeam.flag}</span>
+            )}
             <span className="text-sm font-black text-foreground leading-tight tracking-tight">{awayTeam.name}</span>
             <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{awayTeam.fifaRanking}</span>
           </div>

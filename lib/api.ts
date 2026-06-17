@@ -19,12 +19,11 @@ const FLAG_MAP: Record<string, string> = {
   MAR_FLAG: "🇲🇦", CRO_FLAG: "🇨🇷", BEL_FLAG2: "🇧🇪", CAN_FLAG: "🇨🇦"
 };
 
-// Fallback list of top teams in case standings or teams API fails
 const FALLBACK_TEAMS: Team[] = [
-  { id: "164", name: "Spain", code: "ESP", flag: "🇪🇸", group: "Group C", coach: "Luis de la Fuente", fifaRanking: 3, stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 5, goalsAgainst: 1, points: 7 }, previousPerformances: "Champions (2010)", form: ["W", "W", "D"], colorTheme: "from-red-600 to-yellow-500", squad: [] },
-  { id: "202", name: "Argentina", code: "ARG", flag: "🇦🇷", group: "Group A", coach: "Lionel Scaloni", fifaRanking: 1, stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 6, goalsAgainst: 2, points: 7 }, previousPerformances: "Champions (1978, 1986, 2022)", form: ["W", "W", "D"], colorTheme: "from-sky-400 to-blue-500", squad: [] },
-  { id: "211", name: "France", code: "FRA", flag: "🇫🇷", group: "Group A", coach: "Didier Deschamps", fifaRanking: 2, stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 3, points: 6 }, previousPerformances: "Champions (1998, 2018)", form: ["W", "L", "W"], colorTheme: "from-blue-700 to-indigo-900", squad: [] },
-  { id: "204", name: "Brazil", code: "BRA", flag: "🇧🇷", group: "Group B", coach: "Dorival Júnior", fifaRanking: 5, stats: { played: 3, won: 3, drawn: 0, lost: 0, goalsFor: 8, goalsAgainst: 1, points: 9 }, previousPerformances: "Champions (1958, 1962, 1970, 1994, 2002)", form: ["W", "W", "W"], colorTheme: "from-yellow-400 to-green-600", squad: [] }
+  { id: "164", name: "Spain", code: "ESP", flag: "🇪🇸", logo: "https://a.espncdn.com/i/teamlogos/countries/500/esp.png", group: "Group C", coach: "Luis de la Fuente", fifaRanking: 3, stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 5, goalsAgainst: 1, points: 7 }, previousPerformances: "Champions (2010)", form: ["W", "W", "D"], colorTheme: "from-red-600 to-yellow-500", squad: [] },
+  { id: "202", name: "Argentina", code: "ARG", flag: "🇦🇷", logo: "https://a.espncdn.com/i/teamlogos/countries/500/arg.png", group: "Group A", coach: "Lionel Scaloni", fifaRanking: 1, stats: { played: 3, won: 2, drawn: 1, lost: 0, goalsFor: 6, goalsAgainst: 2, points: 7 }, previousPerformances: "Champions (1978, 1986, 2022)", form: ["W", "W", "D"], colorTheme: "from-sky-400 to-blue-500", squad: [] },
+  { id: "211", name: "France", code: "FRA", flag: "🇫🇷", logo: "https://a.espncdn.com/i/teamlogos/countries/500/fra.png", group: "Group A", coach: "Didier Deschamps", fifaRanking: 2, stats: { played: 3, won: 2, drawn: 0, lost: 1, goalsFor: 5, goalsAgainst: 3, points: 6 }, previousPerformances: "Champions (1998, 2018)", form: ["W", "L", "W"], colorTheme: "from-blue-700 to-indigo-900", squad: [] },
+  { id: "204", name: "Brazil", code: "BRA", flag: "🇧🇷", logo: "https://a.espncdn.com/i/teamlogos/countries/500/bra.png", group: "Group B", coach: "Dorival Júnior", fifaRanking: 5, stats: { played: 3, won: 3, drawn: 0, lost: 0, goalsFor: 8, goalsAgainst: 1, points: 9 }, previousPerformances: "Champions (1958, 1962, 1970, 1994, 2002)", form: ["W", "W", "W"], colorTheme: "from-yellow-400 to-green-600", squad: [] }
 ];
 
 function initializeStorage() {
@@ -139,6 +138,7 @@ export class ApiClient {
           name: t.displayName,
           code: t.abbreviation || t.shortDisplayName,
           flag,
+          logo: t.logos?.[0]?.href || t.logo || (t.abbreviation ? `https://a.espncdn.com/i/teamlogos/countries/500/${t.abbreviation.toLowerCase()}.png` : undefined),
           group: std.group,
           coach: "National Coach",
           fifaRanking: std.rank,

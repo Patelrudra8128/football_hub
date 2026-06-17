@@ -203,7 +203,11 @@ function MatchDetailsContent({ id }: { id: string }) {
         <div className="flex flex-col md:flex-row items-center justify-around gap-6">
           {/* Home team */}
           <div className="flex flex-col items-center text-center max-w-[150px] flex-1">
-            <span className="text-5xl md:text-6xl mb-2 select-none filter drop-shadow-sm">{homeTeam?.flag || "🏳️"}</span>
+            {homeTeam?.logo ? (
+              <img src={homeTeam.logo} alt={homeTeam.name} className="w-16 h-16 md:w-20 md:h-20 object-contain mb-2 filter drop-shadow-sm select-none" />
+            ) : (
+              <span className="text-5xl md:text-6xl mb-2 select-none filter drop-shadow-sm">{homeTeam?.flag || "🏳️"}</span>
+            )}
             <span className="font-extrabold text-sm md:text-lg text-foreground leading-tight">{homeTeam?.name || match.homeTeamId}</span>
             {homeTeam?.fifaRanking && (
               <span className="text-[10px] text-muted-foreground font-semibold mt-1">FIFA Rank #{homeTeam.fifaRanking}</span>
@@ -243,7 +247,11 @@ function MatchDetailsContent({ id }: { id: string }) {
 
           {/* Away team */}
           <div className="flex flex-col items-center text-center max-w-[150px] flex-1">
-            <span className="text-5xl md:text-6xl mb-2 select-none filter drop-shadow-sm">{awayTeam?.flag || "🏳️"}</span>
+            {awayTeam?.logo ? (
+              <img src={awayTeam.logo} alt={awayTeam.name} className="w-16 h-16 md:w-20 md:h-20 object-contain mb-2 filter drop-shadow-sm select-none" />
+            ) : (
+              <span className="text-5xl md:text-6xl mb-2 select-none filter drop-shadow-sm">{awayTeam?.flag || "🏳️"}</span>
+            )}
             <span className="font-extrabold text-sm md:text-lg text-foreground leading-tight">{awayTeam?.name || match.awayTeamId}</span>
             {awayTeam?.fifaRanking && (
               <span className="text-[10px] text-muted-foreground font-semibold mt-1">FIFA Rank #{awayTeam.fifaRanking}</span>
@@ -352,7 +360,11 @@ function MatchDetailsContent({ id }: { id: string }) {
                 {/* Home Starters */}
                 <div className="bg-muted/15 border border-border/60 rounded-xl p-4 space-y-3">
                   <div className="flex items-center gap-2 border-b border-border/40 pb-1.5">
-                    <span className="text-2xl">{homeTeam?.flag}</span>
+                    {homeTeam?.logo ? (
+                      <img src={homeTeam.logo} alt={homeTeam.name} className="w-6 h-6 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span className="text-2xl">{homeTeam?.flag}</span>
+                    )}
                     <span className="text-xs font-black uppercase text-foreground truncate">{homeTeam?.name || "Home"} Starters</span>
                   </div>
                   <ol className="list-decimal pl-4 space-y-1 text-xs font-semibold text-muted-foreground">
@@ -373,7 +385,11 @@ function MatchDetailsContent({ id }: { id: string }) {
                 {/* Away Starters */}
                 <div className="bg-muted/15 border border-border/60 rounded-xl p-4 space-y-3">
                   <div className="flex items-center gap-2 border-b border-border/40 pb-1.5">
-                    <span className="text-2xl">{awayTeam?.flag}</span>
+                    {awayTeam?.logo ? (
+                      <img src={awayTeam.logo} alt={awayTeam.name} className="w-6 h-6 object-contain filter drop-shadow-sm select-none" />
+                    ) : (
+                      <span className="text-2xl">{awayTeam?.flag}</span>
+                    )}
                     <span className="text-xs font-black uppercase text-foreground truncate">{awayTeam?.name || "Away"} Starters</span>
                   </div>
                   <ol className="list-decimal pl-4 space-y-1 text-xs font-semibold text-muted-foreground">

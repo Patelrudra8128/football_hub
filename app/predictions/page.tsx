@@ -219,7 +219,21 @@ export default function PredictionCenter() {
                     >
                       <div>
                         <span className="text-[8px] uppercase tracking-wider text-muted-foreground font-extrabold block mb-1">{m.group}</span>
-                        <span className="font-extrabold text-foreground">{hTeam.flag} {hTeam.code} vs {aTeam.flag} {aTeam.code}</span>
+                        <span className="font-extrabold text-foreground flex items-center gap-1.5">
+                          {hTeam.logo ? (
+                            <img src={hTeam.logo} alt={hTeam.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{hTeam.flag}</span>
+                          )}
+                          <span>{hTeam.code}</span>
+                          <span className="text-muted-foreground/60 font-light font-mono text-[10px] mx-0.5">vs</span>
+                          {aTeam.logo ? (
+                            <img src={aTeam.logo} alt={aTeam.name} className="w-4 h-4 object-contain filter drop-shadow-sm select-none" />
+                          ) : (
+                            <span>{aTeam.flag}</span>
+                          )}
+                          <span>{aTeam.code}</span>
+                        </span>
                       </div>
                       <span className="text-[10px] text-primary font-bold hover:underline shrink-0">{t("nav.predict")} &rarr;</span>
                     </button>

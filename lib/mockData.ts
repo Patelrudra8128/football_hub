@@ -36,6 +36,7 @@ export interface Team {
   name: string;
   code: string;
   flag: string;
+  logo?: string;
   group: string;
   coach: string;
   fifaRanking: number;
@@ -104,6 +105,7 @@ export const MOCK_TEAMS: Team[] = [
     name: "Argentina",
     code: "ARG",
     flag: "🇦🇷",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
     group: "Group A",
     coach: "Lionel Scaloni",
     fifaRanking: 1,
@@ -119,6 +121,7 @@ export const MOCK_TEAMS: Team[] = [
     name: "France",
     code: "FRA",
     flag: "🇫🇷",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
     group: "Group A",
     coach: "Didier Deschamps",
     fifaRanking: 2,
@@ -134,6 +137,7 @@ export const MOCK_TEAMS: Team[] = [
     name: "Brazil",
     code: "BRA",
     flag: "🇧🇷",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
     group: "Group B",
     coach: "Dorival Júnior",
     fifaRanking: 5,
@@ -148,7 +152,8 @@ export const MOCK_TEAMS: Team[] = [
     id: "eng",
     name: "England",
     code: "ENG",
-    flag: "🏴\u200D☠️", // flag emoji
+    flag: "🏴\u200D☠️",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
     group: "Group B",
     coach: "Thomas Tuchel",
     fifaRanking: 4,
@@ -164,6 +169,7 @@ export const MOCK_TEAMS: Team[] = [
     name: "Germany",
     code: "GER",
     flag: "🇩🇪",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
     group: "Group C",
     coach: "Julian Nagelsmann",
     fifaRanking: 11,
@@ -179,6 +185,7 @@ export const MOCK_TEAMS: Team[] = [
     name: "Spain",
     code: "ESP",
     flag: "🇪🇸",
+    logo: "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
     group: "Group C",
     coach: "Luis de la Fuente",
     fifaRanking: 3,

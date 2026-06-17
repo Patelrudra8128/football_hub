@@ -126,10 +126,14 @@ export default function TeamProfile({ params }: { params: Promise<{ id: string }
       <section className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
         
-        <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left w-full">
-          <span className="text-6xl md:text-7xl filter drop-shadow-sm select-none">{team.flag}</span>
+        <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left w-full font-bold">
+          {team.logo ? (
+            <img src={team.logo} alt={team.name} className="w-16 h-16 md:w-20 md:h-20 object-contain filter drop-shadow-sm select-none" />
+          ) : (
+            <span className="text-6xl md:text-7xl filter drop-shadow-sm select-none">{team.flag}</span>
+          )}
           
-          <div className="space-y-2 flex-1">
+          <div className="space-y-2 flex-1 font-normal">
             <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight uppercase">{team.name}</h1>
             <p className="text-xs font-bold text-muted-foreground uppercase">
               {team.group} • FIFA Ranking: <span className="text-foreground font-black">#{team.fifaRanking}</span>

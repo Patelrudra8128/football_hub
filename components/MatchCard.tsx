@@ -59,7 +59,11 @@ export default function MatchCard({ match, showDetailsButton = true }: MatchCard
         
         {/* Home Team */}
         <div className="flex-1 flex flex-col items-center text-center">
-          <span className="text-3xl md:text-4xl mb-2 filter drop-shadow-sm select-none">{homeTeam?.flag || "🏳️"}</span>
+          {homeTeam?.logo ? (
+            <img src={homeTeam.logo} alt={homeTeam.name} className="w-10 h-10 md:w-12 md:h-12 object-contain mb-2 filter drop-shadow-sm select-none" />
+          ) : (
+            <span className="text-3xl md:text-4xl mb-2 filter drop-shadow-sm select-none">{homeTeam?.flag || "🏳️"}</span>
+          )}
           <span className="text-xs md:text-sm font-black text-foreground tracking-tight">{homeTeam?.name || match.homeTeamId}</span>
           <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{homeTeam?.fifaRanking}</span>
         </div>
@@ -86,7 +90,11 @@ export default function MatchCard({ match, showDetailsButton = true }: MatchCard
 
         {/* Away Team */}
         <div className="flex-1 flex flex-col items-center text-center">
-          <span className="text-3xl md:text-4xl mb-2 filter drop-shadow-sm select-none">{awayTeam?.flag || "🏳️"}</span>
+          {awayTeam?.logo ? (
+            <img src={awayTeam.logo} alt={awayTeam.name} className="w-10 h-10 md:w-12 md:h-12 object-contain mb-2 filter drop-shadow-sm select-none" />
+          ) : (
+            <span className="text-3xl md:text-4xl mb-2 filter drop-shadow-sm select-none">{awayTeam?.flag || "🏳️"}</span>
+          )}
           <span className="text-xs md:text-sm font-black text-foreground tracking-tight">{awayTeam?.name || match.awayTeamId}</span>
           <span className="text-[10px] text-muted-foreground font-semibold mt-0.5">{t("common.rank")} #{awayTeam?.fifaRanking}</span>
         </div>
