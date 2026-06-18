@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 // import LiveScoreBar from "@/components/LiveScoreBar";
 import MobileNav from "@/components/MobileNav";
 import LuckyDrawQuestWidget from "@/components/LuckyDrawQuestWidget";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
@@ -35,6 +36,8 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
     <head>
       <script src="https://quge5.com/88/tag.min.js" data-zone="250791" async data-cfasync="false"></script>
+      <Script id="al5sm-ad-script">{`(function(s){s.dataset.zone='11165383',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}
+      </Script>
     </head>
     <body
         className="antialiased min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
