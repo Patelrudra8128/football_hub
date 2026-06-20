@@ -142,6 +142,7 @@ export default function Home() {
         <div className="w-full md:max-w-md relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
+            id="global-search-input"
             type="text"
             placeholder={t("searchPlaceholder")}
             value={searchQuery}
@@ -422,6 +423,7 @@ export default function Home() {
             <div className="bg-muted p-1 rounded-xl flex gap-0.5 text-[10px] font-bold uppercase shrink-0 border border-border/60 animate-in fade-in">
               {(["all", "live", "upcoming", "finished"] as const).map(tab => (
                 <button
+                  id={`matches-tab-${tab}`}
                   key={tab}
                   onClick={() => setActiveMatchesTab(tab)}
                   className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${activeMatchesTab === tab ? "bg-card text-primary shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
@@ -582,6 +584,7 @@ export default function Home() {
               <div className="px-4 py-3 bg-muted/40 border-b border-border flex items-center justify-between">
                 <span className="font-extrabold text-[10px] text-foreground uppercase tracking-wider">{t("home.groupTables")}</span>
                 <select
+                  id="group-standings-selector"
                   value={selectedGroup}
                   onChange={(e) => setSelectedGroup(e.target.value)}
                   className="bg-card border border-border text-foreground font-extrabold text-xs rounded-lg px-2.5 py-1 outline-none"

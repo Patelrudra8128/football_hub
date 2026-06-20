@@ -10,12 +10,21 @@ import LuckyDrawQuestWidget from "@/components/LuckyDrawQuestWidget";
 import Script from "next/script";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.footballscore.info"),
   title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
-  description: "Experience the ultimate World Cup soccer dashboard. Real-time score ticker, match action timelines, lineups, tactical field grids, group standings, and AI xG outcome predictions.",
-  keywords: ["Football Score", "FIFA World Cup", "World Cup Live Scores", "Soccer AI predictions", "Lineups formation", "Group standings table", "Player profile stats"],
+  description: "Get real-time FIFA World Cup scores, match scorecards, player statistics, group standings, and AI match outcomes predictions. Your ultimate football scorecard hub.",
+  keywords: [
+    "football", "football score", "FIFA world cup", "FIFA score", "scorecard", 
+    "football scorecard", "live score", "World Cup Live Scores", "Soccer AI predictions", 
+    "Lineups formation", "Group standings table", "Player profile stats"
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
-    description: "Get real-time World Cup statistics, match details timeline, squad lineups, group tables, and AI-powered match forecasts.",
+    description: "Get real-time FIFA World Cup scores, match scorecards, player statistics, group standings, and AI match outcomes predictions. Your ultimate football scorecard hub.",
+    url: "https://www.footballscore.info",
     type: "website",
     locale: "en_US",
     siteName: "Football Score",
@@ -23,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Football Score - FIFA World Cup AI Predictions & Live Scores",
-    description: "Real-time World Cup standings, interactive metrics charts, and AI match outcome forecasts.",
+    description: "Get real-time FIFA World Cup scores, match scorecards, player statistics, group standings, and AI match outcomes predictions.",
   }
 };
 
