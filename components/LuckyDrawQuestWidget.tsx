@@ -6,7 +6,7 @@ import Link from "next/link";
 import { 
   Trophy, Clock, CheckCircle2, Gift, Mail, 
   User, Phone, MapPin, Loader2, AlertCircle,
-  ArrowRight, X
+  ArrowRight, X, Sparkles
 } from "lucide-react";
 import { enrollInLuckyDraw } from "@/lib/firebase";
 import { db } from "@/lib/api";
@@ -16,6 +16,7 @@ export default function LuckyDrawQuestWidget() {
   const pathname = usePathname();
   const [isActive, setIsActive] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [isExtraTicketActive, setIsExtraTicketActive] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [teams, setTeams] = useState<Team[]>([]);
 
@@ -59,9 +60,11 @@ export default function LuckyDrawQuestWidget() {
     const checkState = () => {
       const active = localStorage.getItem("lucky_draw_quest_active") === "true";
       const enrolled = !!localStorage.getItem("lucky_draw_enrolled_ticket");
+      const extraActive = localStorage.getItem("lucky_draw_extra_ticket") === "true";
       
       setIsActive(active);
       setIsEnrolled(enrolled);
+      setIsExtraTicketActive(extraActive);
 
       setMatchesDone(localStorage.getItem("lucky_draw_matches_done") === "true");
       setStandingsDone(localStorage.getItem("lucky_draw_standings_done") === "true");
@@ -148,6 +151,18 @@ export default function LuckyDrawQuestWidget() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleActivateExtraTicket = () => {
+    localStorage.setItem("lucky_draw_extra_ticket", "true");
+    setIsExtraTicketActive(true);
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleCloseSuccessModal = () => {
+    setSuccess(false);
+    setIsEnrolled(true);
+    setShowForm(false);
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.address.trim()) {
@@ -170,11 +185,6 @@ export default function LuckyDrawQuestWidget() {
         setSuccess(true);
         // Trigger page re-renders for other components (like banner)
         window.dispatchEvent(new Event("storage"));
-        // Slide out after 3 seconds
-        setTimeout(() => {
-          setSuccess(false);
-          setIsEnrolled(true);
-        }, 3000);
       }
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : "An error occurred during enrollment.";
@@ -341,29 +351,81 @@ export default function LuckyDrawQuestWidget() {
 
             {/* Success screen */}
             {success ? (
-              <div className="text-center py-6 space-y-4 animate-in fade-in duration-300">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary">
-                  <CheckCircle2 className="h-7 w-7 animate-pulse" />
+              <div className="text-center py-4 space-y-3.5 animate-in fade-in duration-300">
+                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary">
+                  <CheckCircle2 className="h-6 w-6 animate-pulse" />
                 </div>
-                <div className="space-y-2">
-                  <h4 className="text-base font-black uppercase text-foreground">Enrolled Successfully!</h4>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed max-w-sm mx-auto">
+                <div className="space-y-1">
+                  <h4 className="text-sm font-black uppercase text-foreground">Enrolled Successfully!</h4>
+                  <p className="text-[10px] text-muted-foreground leading-relaxed max-w-sm mx-auto">
                     Your fan registration is active. Your entry has been recorded in the database. We will notify the winners directly by email.
                   </p>
                 </div>
-                <div className="mx-auto max-w-xs rounded-xl border border-border/60 bg-muted/20 p-4 space-y-2 text-left text-[11px] font-semibold">
-                  <div className="flex justify-between border-b border-border/30 pb-1.5">
+                
+                {/* Confirmation Box */}
+                <div className="mx-auto max-w-xs rounded-xl border border-border/60 bg-muted/20 p-3 space-y-1.5 text-left text-[10px] font-semibold">
+                  <div className="flex justify-between border-b border-border/30 pb-1">
                     <span className="text-muted-foreground">Name:</span>
                     <span className="text-foreground font-bold">{formData.name}</span>
                   </div>
-                  <div className="flex justify-between border-b border-border/30 pb-1.5">
+                  <div className="flex justify-between border-b border-border/30 pb-1">
                     <span className="text-muted-foreground">Email:</span>
                     <span className="text-foreground font-bold">{formData.email}</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between border-b border-border/30 pb-1">
                     <span className="text-muted-foreground">Favorite Team:</span>
                     <span className="text-foreground font-bold">{formData.favoriteTeam}</span>
                   </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Ticket Status:</span>
+                    <span className={`font-bold uppercase tracking-wider text-[9px] ${isExtraTicketActive ? "text-emerald-500" : "text-amber-500"}`}>
+                      {isExtraTicketActive ? "🎟️ 2 Tickets (Double Odds Active)" : "🎟️ 1 Ticket"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Monetag Smart Link Section */}
+                <div className="pt-1 max-w-xs mx-auto">
+                  {!isExtraTicketActive ? (
+                    <div className="bg-muted/10 border border-dashed border-border rounded-xl p-3 space-y-2 text-center">
+                      <div className="text-[10px] text-amber-500 font-extrabold uppercase tracking-wider flex items-center justify-center gap-1">
+                        <Sparkles className="w-3 h-3 animate-pulse" />
+                        <span>Double your winning chances!</span>
+                      </div>
+                      <p className="text-[9px] text-muted-foreground leading-relaxed">
+                        Claim a bonus draw ticket to double your odds of winning. Click below to visit our sponsor and activate 2x chances.
+                      </p>
+                      <a
+                        href="https://omg10.com/4/11178313"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={handleActivateExtraTicket}
+                        className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black uppercase tracking-wider text-[9px] px-4 py-2 rounded-xl shadow-md hover:scale-[1.02] hover:opacity-95 transition cursor-pointer"
+                      >
+                        <span>🔥 Claim Bonus Ticket (2x Odds)</span>
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 space-y-1 text-center">
+                      <div className="inline-flex items-center justify-center gap-1 text-emerald-500 font-extrabold uppercase tracking-wider text-[10px]">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>2x Winning Chance Active</span>
+                      </div>
+                      <p className="text-[9px] text-muted-foreground">
+                        Your bonus ticket is active (2 tickets enrolled).
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Close modal manually */}
+                <div className="pt-1 flex justify-center">
+                  <button
+                    onClick={handleCloseSuccessModal}
+                    className="px-5 py-2.5 bg-primary text-primary-foreground font-black uppercase tracking-wider text-[10px] rounded-xl hover:opacity-90 transition shadow cursor-pointer"
+                  >
+                    Close & Return to Dashboard
+                  </button>
                 </div>
               </div>
             ) : (

@@ -5,6 +5,7 @@ import { Sparkles, CheckCircle2, ArrowRight, Clock, HelpCircle } from "lucide-re
 
 export default function LuckyDrawBanner() {
   const [stage, setStage] = useState<"start" | "progress" | "success">("start");
+  const [isExtraTicketActive, setIsExtraTicketActive] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +16,9 @@ export default function LuckyDrawBanner() {
     const checkStatus = () => {
       const enrolled = !!localStorage.getItem("lucky_draw_enrolled_ticket");
       const active = localStorage.getItem("lucky_draw_quest_active") === "true";
+      const extraActive = localStorage.getItem("lucky_draw_extra_ticket") === "true";
+      
+      setIsExtraTicketActive(extraActive);
       
       if (enrolled) {
         setStage("success");
@@ -83,6 +87,12 @@ export default function LuckyDrawBanner() {
     localStorage.setItem("lucky_draw_quest_active", "true");
     window.dispatchEvent(new Event("lucky_draw_quest_started"));
     setStage("progress");
+  };
+
+  const handleActivateExtraTicket = () => {
+    localStorage.setItem("lucky_draw_extra_ticket", "true");
+    setIsExtraTicketActive(true);
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (
@@ -226,10 +236,50 @@ export default function LuckyDrawBanner() {
               <span className="text-muted-foreground">Email:</span>
               <span className="text-foreground font-bold">{formData.email || "Registered Email"}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between border-b border-border/30 pb-2">
               <span className="text-muted-foreground">Favorite Team:</span>
               <span className="text-foreground font-bold">{formData.favoriteTeam || "Selected Team"}</span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Ticket Status:</span>
+              <span className={`font-bold uppercase tracking-wider text-[10px] ${isExtraTicketActive ? "text-emerald-500" : "text-amber-500"}`}>
+                {isExtraTicketActive ? "🎟️ 2 Tickets (Double Chances Active)" : "🎟️ 1 Ticket"}
+              </span>
+            </div>
+          </div>
+
+          {/* Monetag Smart Link Section */}
+          <div className="pt-2 max-w-sm mx-auto">
+            {!isExtraTicketActive ? (
+              <div className="bg-muted/10 border border-dashed border-border rounded-xl p-4 space-y-3">
+                <div className="text-[11px] text-amber-500 font-extrabold uppercase tracking-wider flex items-center justify-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                  <span>Double your winning chances!</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground leading-relaxed">
+                  Support our platform and claim a bonus draw ticket to double your odds of winning. Click the button below to visit our sponsor and activate 2x chances.
+                </p>
+                <a
+                  href="https://omg10.com/4/11178313"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleActivateExtraTicket}
+                  className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black uppercase tracking-wider text-[10px] px-5 py-2.5 rounded-xl shadow-md hover:scale-[1.02] hover:opacity-95 transition cursor-pointer"
+                >
+                  <span>🔥 Claim Bonus Draw Ticket (2x Odds)</span>
+                </a>
+              </div>
+            ) : (
+              <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4 space-y-2">
+                <div className="inline-flex items-center gap-1.5 text-emerald-500 font-extrabold uppercase tracking-wider text-[11px]">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>2x Winning Chance Active</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground">
+                  Your bonus ticket is active. Your entries are doubled in the drawing database!
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
